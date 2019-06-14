@@ -1,26 +1,35 @@
-# Express Boilerplate!
+# Spotify Accounts Authentication Examples
 
-This is a boilerplate project used for starting new projects!
+This project contains basic demos showing the different OAuth 2.0 flows for [authenticating against the Spotify Web API](https://developer.spotify.com/web-api/authorization-guide/).
 
-## Set up
+These examples cover:
 
-Complete the following steps to start a new project (NEW-PROJECT-NAME):
+* Authorization Code flow
+* Client Credentials flow
+* Implicit Grant flow
 
-1. Clone this repository to your local machine `git clone BOILERPLATE-URL NEW-PROJECTS-NAME`
-2. `cd` into the cloned repository
-3. Make a fresh start of the git history for this project with `rm -rf .git && git init`
-4. Install the node dependencies `npm install`
-5. Move the example Environment file to `.env` that will be ignored by git and read by the express server `mv example.env .env`
-6. Edit the contents of the `package.json` to use NEW-PROJECT-NAME instead of `"name": "express-boilerplate",`
+## Installation
 
-## Scripts
+These examples run on Node.js. On [its website](http://www.nodejs.org/download/) you can find instructions on how to install it. You can also follow [this gist](https://gist.github.com/isaacs/579814) for a quick and easy way to install Node.js and npm.
 
-Start the application `npm start`
+Once installed, clone the repository and install its dependencies running:
 
-Start nodemon for the application `npm run dev`
+    $ npm install
 
-Run the tests `npm test`
+### Using your own credentials
+You will need to register your app and get your own credentials from the Spotify for Developers Dashboard.
 
-## Deploying
+To do so, go to [your Spotify for Developers Dashboard](https://beta.developer.spotify.com/dashboard) and create your application. For the examples, we registered these Redirect URIs:
 
-When your new project is ready for deployment, add a new Heroku application with `heroku create`. This will make a new git remote called "heroku" and you can then `npm run deploy` which will push to this remote's master branch.
+* http://localhost:8888 (needed for the implicit grant flow)
+* http://localhost:8888/callback
+
+Once you have created your app, replace the `client_id`, `redirect_uri` and `client_secret` in the examples with the ones you get from My Applications.
+
+## Running the examples
+In order to run the different examples, open the folder with the name of the flow you want to try out, and run its `app.js` file. For instance, to run the Authorization Code example do:
+
+    $ cd authorization_code
+    $ node app.js
+
+Then, open `http://localhost:8888` in a browser.

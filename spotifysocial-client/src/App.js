@@ -8,6 +8,10 @@ import Grid from '@material-ui/core/Grid';
 import LibraryMusic from '@material-ui/icons/LibraryMusic';
 import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
+import {
+  BrowserRouter as Router,
+  Link,
+} from 'react-router-dom';
 
 
 
@@ -56,8 +60,9 @@ export default function App() {
             Spotify Social
           </Typography>
           <form className={classes.form} noValidate>
-
-            <Button
+        
+             <Button
+              href="http://localhost:8888/login"
               type="submit"
               fullWidth
               variant="contained"
@@ -66,7 +71,6 @@ export default function App() {
             >
               Sign In
             </Button>
-
           </form>
         </div>
       </Grid>
