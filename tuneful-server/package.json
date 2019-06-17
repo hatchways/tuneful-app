@@ -1,0 +1,39 @@
+{
+  "name": "express-boilerplate",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "mocha --require test/setup.js",
+    "dev": "nodemon src/server.js",
+    "start": "node src/server.js",
+    "migrate": "postgrator --config postgrator-config.js",
+    "predeploy": "npm audit",
+    "deploy": "git push heroku master"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "bcryptjs": "^2.4.3",
+    "cookie-parser": "^1.4.4",
+    "cors": "^2.8.5",
+    "dotenv": "^7.0.0",
+    "express": "^4.16.4",
+    "helmet": "^3.16.0",
+    "jsonwebtoken": "^8.5.1",
+    "knex": "^0.16.5",
+    "morgan": "^1.9.1",
+    "pg": "^7.11.0",
+    "request": "^2.88.0",
+    "winston": "^3.2.1",
+    "xss": "^1.0.6"
+  },
+  "devDependencies": {
+    "chai": "^4.2.0",
+    "mocha": "^6.1.4",
+    "nodemon": "^1.19.0",
+    "postgrator-cli": "^3.1.0",
+    "supertest": "^4.0.2"
+  }
+}
