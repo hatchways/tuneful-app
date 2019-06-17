@@ -36,7 +36,7 @@ app.use(function errorHandler(error,req,res,next){
 
 var client_id = '89e77e7e9553423e9c5e38735cbe8ef9'; // Your client id
 var client_secret = '80454556465b42caaec097106e436d37'; // Your secret
-var redirect_uri = 'http://localhost:8000/callback'; // Your redirect uri
+var redirect_uri = 'http://localhost:3000/profile'; // Your redirect uri
 
 /**
  * Generates a random string containing numbers and letters
