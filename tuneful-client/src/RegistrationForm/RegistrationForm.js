@@ -2,7 +2,6 @@ import React from 'react';
 import Avatar from '@material-ui/core/Avatar';
 import Button from '@material-ui/core/Button';
 import CssBaseline from '@material-ui/core/CssBaseline';
-import TextField from '@material-ui/core/TextField';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import Checkbox from '@material-ui/core/Checkbox';
 import Paper from '@material-ui/core/Paper';
@@ -13,6 +12,10 @@ import { makeStyles } from '@material-ui/core/styles';
 import Image from '../Media/home-screen.jpg';
 import useForm from "../CustomHooks/useForm";
 import Link from '@material-ui/core/Link';
+import Divider from '@material-ui/core/Divider';
+import { ValidatorForm, TextValidator} from 'react-material-ui-form-validator';
+
+
 
 
 const useStyles = makeStyles(theme => ({
@@ -66,10 +69,21 @@ export default function RegistrationForm() {
           <Typography component="h1" variant="h5">
             Tuneful
           </Typography>
-          <form onSubmit={handleSubmit} className={classes.form} noValidate>
+          <Button 
+              href="http://localhost:8000/login"
+              type="submit"
+              fullWidth
+              variant="contained"
+              color="secondary"
+              className={classes.submit}
+            >
+              Signup with Spotify
+      </Button>
+          <ValidatorForm onSubmit={handleSubmit} className={classes.form} onError={errors => console.log(errors)} noValidate>
+          <Divider variant = "middle" component = "hr" /> 
           <Grid container spacing={2}>
             <Grid item xs={12} sm={6}>
-              <TextField m="2rem"
+              <TextValidator m="2rem"
                 onChange={handleChange}
                 value={values.first_name}
                 autoComplete="fname"
@@ -79,11 +93,14 @@ export default function RegistrationForm() {
                 fullWidth
                 id="first_name"
                 label="First Name"
+                style = {{marginTop: '30px'}}
                 autoFocus
+                validators={['required']}
+                errorMessages={['This field is required']}
               />
             </Grid>
             <Grid item xs={12} sm={6}>
-              <TextField
+              <TextValidator
                 onChange={handleChange}
                 value={values.last_name}
                 variant="outlined"
@@ -92,11 +109,14 @@ export default function RegistrationForm() {
                 id="last_name"
                 label="Last Name"
                 name="lastName"
+                style = {{marginTop: '30px'}}
                 autoComplete="lname"
+                validators={['required','matchRegexp:^[a-z]+$/i']}
+                errorMessages={['This field is required','Must not contain numbers']}
               />
               </Grid>
             <Grid item xs={12}>
-              <TextField 
+              <TextValidator
                 onChange={handleChange}
                 value={values.email}
                 variant="outlined"
@@ -106,10 +126,12 @@ export default function RegistrationForm() {
                 label="Email Address"
                 name="email"
                 autoComplete="email"
+                validators={['required', 'isEmail']}
+                errorMessages={['This field is required', 'Email is not valid']}
               />
               </Grid>
             <Grid item xs={12}>
-              <TextField
+              <TextValidator
                 onChange={handleChange}
                 value={values.password}
                 variant="outlined"
@@ -120,6 +142,8 @@ export default function RegistrationForm() {
                 type="password"
                 id="password"
                 autoComplete="current-password"
+                validators={['required']}
+                errorMessages={['this field is required']}
               />
             </Grid>
             <Grid item xs={12}>
@@ -138,7 +162,7 @@ export default function RegistrationForm() {
             >
               Sign me up
             </Button>
-          </form>
+          </ValidatorForm>
           <Grid item xs>
           <Link href="/" variant="body2">
                  Already have an account? Log in here

@@ -21,6 +21,7 @@ const useForm = (callback) => {
           password.value = ''
         })
         .catch(res => {
+          //log error here
           console.log()
         })
   };
