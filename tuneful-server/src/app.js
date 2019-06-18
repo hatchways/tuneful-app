@@ -6,9 +6,11 @@ const helmet = require('helmet')
 const { NODE_ENV } = require('./config')
 const authRouter = require('./auth/auth-router')
 const usersRouter = require('./users/users-router')
+const commentsRouter = require('./comments/comments-router')
 var querystring = require('querystring');
 var cookieParser = require('cookie-parser');
 var request = require('request'); // "Request" library
+
 
 const app = express()
 
@@ -22,6 +24,8 @@ app.use(helmet())
 
 app.use('/api/auth', authRouter)
 app.use('/api/users', usersRouter)
+app.use('./api/comments', commentsRouter)
+app.use('./api/posts', PostsRouter)
 
 app.use(function errorHandler(error,req,res,next){
     let response
@@ -100,7 +104,7 @@ var generateRandomString = function(length) {
           grant_type: 'authorization_code'
         },
         headers: {
-          'Authorization': 'Basic ' + (new Buffer(client_id + ':' + client_secret).toString('base64'))
+          'Authorization': 'Basic ' + (new Buffer.alloc(client_id + ':' + client_secret).toString('base64'))
         },
         json: true
       };
@@ -122,7 +126,7 @@ var generateRandomString = function(length) {
             console.log(body);
           });
         // we can also pass the token to the browser to make requests from there
-        res.redirect('/#' +
+        res.redirect('http://localhost:3000' +
           querystring.stringify({
             access_token: access_token,
             refresh_token: refresh_token
