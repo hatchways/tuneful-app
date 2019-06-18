@@ -11,7 +11,9 @@ const serializePosts = post => ({
   date_published: post.date_published,
   author: xss(post.author),
   image_url:xss(post.image_url),
-  music_url:xss(post.music_url)
+  music_url:xss(post.music_url),
+  comment_count: post.comment_count,
+  likes_count: post.likes_count
 })
 
 PostsRouter
