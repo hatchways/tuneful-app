@@ -8,9 +8,9 @@ const jsonParser = express.json()
 
 const serializeComment = comment => ({
   id: comment.id,
-  description: xss(comment.text),
+  description: xss(comment.description),
   date_commented: comment.date_commented,
-  posts_id: comment.article_id,
+  posts_id: comment.posts_id,
   user_id: comment.user_id
 })
 

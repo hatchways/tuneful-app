@@ -6,6 +6,7 @@ const helmet = require('helmet')
 const { NODE_ENV } = require('./config')
 const authRouter = require('./auth/auth-router')
 const usersRouter = require('./users/users-router')
+const PostsRouter = require('./posts/posts-router')
 const commentsRouter = require('./comments/comments-router')
 var querystring = require('querystring');
 var cookieParser = require('cookie-parser');
@@ -24,8 +25,8 @@ app.use(helmet())
 
 app.use('/api/auth', authRouter)
 app.use('/api/users', usersRouter)
-app.use('./api/comments', commentsRouter)
-app.use('./api/posts', PostsRouter)
+app.use('/api/comments', commentsRouter)
+app.use('/api/posts', PostsRouter)
 
 app.use(function errorHandler(error,req,res,next){
     let response
@@ -88,6 +89,8 @@ var generateRandomString = function(length) {
     var code = req.query.code || null;
     var state = req.query.state || null;
     var storedState = req.cookies ? req.cookies[stateKey] : null;
+
+    req.app.get('db')
   
     if (state === null || state !== storedState) {
       res.redirect('/#' +
