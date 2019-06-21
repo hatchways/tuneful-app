@@ -7,5 +7,6 @@ CREATE TABLE user_accounts (
   email VARCHAR (355) NOT NULL UNIQUE,
   password VARCHAR NOT NULL,
   refresh_token VARCHAR,
+  description VARCHAR,
   date_created TIMESTAMP NOT NULL DEFAULT now()
 );
