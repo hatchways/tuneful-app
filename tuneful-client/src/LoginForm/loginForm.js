@@ -58,18 +58,9 @@ export default function LoginForm() {
           <Typography component="h1" variant="h5">
             Tuneful
           </Typography>
-          <Button 
-              href="http://localhost:8000/login"
-              type="submit"
-              fullWidth
-              variant="contained"
-              color="secondary"
-              className={classes.submit}
-            >
-              Login with Spotify
-      </Button>
+          
       
-          <form className={classes.form} noValidate>
+          <form className={classes.form} onError={errors => console.log(errors)} noValidate>
           <Divider variant = "middle" component = "hr" /> 
             <TextField
               variant="outlined"

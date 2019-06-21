@@ -10,10 +10,9 @@ import { makeStyles } from '@material-ui/core/styles';
 import Image from '../Media/home-screen.jpg';
 import useForm from "../CustomHooks/useForm";
 import Divider from '@material-ui/core/Divider';
-import { ValidatorForm} from 'react-material-ui-form-validator';
 import {Link} from 'react-router-dom';
 import TextField from '@material-ui/core/TextField';
-
+ 
 
 
 
@@ -68,16 +67,6 @@ export default function RegistrationForm() {
           <Typography component="h1" variant="h5">
             Tuneful
           </Typography>
-          <Button 
-              href="http://localhost:8000/login"
-              type="submit"
-              fullWidth
-              variant="contained"
-              color="secondary"
-              className={classes.submit}
-            >
-              Signup with Spotify
-      </Button>
         <form onSubmit={handleSubmit} className={classes.form} onError={errors => console.log(errors)} noValidate>
           <Divider variant = "middle" component = "hr" /> 
           <Grid container spacing={2}>
@@ -158,7 +147,7 @@ export default function RegistrationForm() {
             </Button>
           </form>
           <Grid item xs>
-          <Link to = "/">
+          <Link to = "/"> 
                  Already have an account? Log in here
                 </Link>
             </Grid>

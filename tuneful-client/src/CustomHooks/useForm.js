@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import AuthApiService from '../Services/auth-api-service';
+import history from '../Services/history';
 
 const useForm = (callback) => {
 
@@ -24,6 +25,8 @@ const useForm = (callback) => {
           //log error here
           console.log()
         })
+
+        history.push('/success')
   };
 
   const handleChange = (event) => {
