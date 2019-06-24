@@ -48,12 +48,7 @@ const useStyles = makeStyles(theme => ({
 export default function RegistrationForm() {
     const classes = useStyles();
   
-    const { values, handleChange, handleSubmit } = useForm(login);
-
-    function login() {
-      console.log(values);
-    }
-
+    const { values, handleChange, handleSubmit } = useForm();
 
   return (
     <Grid container component="main" className={classes.root}>

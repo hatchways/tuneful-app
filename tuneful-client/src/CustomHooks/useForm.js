@@ -1,10 +1,13 @@
 import { useState } from 'react';
 import AuthApiService from '../Services/auth-api-service';
 import history from '../Services/history';
+import TokenService from '../Services/token-service'
+
 
 const useForm = (callback) => {
 
   const [values, setValues] = useState({});
+  const [error,setError] = useState(null);
 
   const handleSubmit = (event) => {
     if (event) event.preventDefault();
@@ -29,6 +32,25 @@ const useForm = (callback) => {
         history.push('/success')
   };
 
+
+  const handleSubmitJwtAuth = (event) => {
+    event.preventDefault()
+    const { email, password } = event.target
+ 
+    AuthApiService.postLogin({
+      email: email.value,
+      password: password.value,
+    })
+      .then(res => {
+        email.value = ''
+        password.value = ''
+        TokenService.saveAuthToken(res.authToken)
+      })
+      .catch(res => {
+        setError(res.error)})
+      
+ }
+
   const handleChange = (event) => {
     event.persist();
     setValues(values => ({ ...values, [event.target.id]: event.target.value }));
@@ -37,6 +59,7 @@ const useForm = (callback) => {
   return {
     handleChange,
     handleSubmit,
+    handleSubmitJwtAuth,
     values,
   }
 };

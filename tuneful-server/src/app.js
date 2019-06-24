@@ -28,6 +28,7 @@ app.use('/api/users', usersRouter)
 app.use('/api/comments', commentsRouter)
 app.use('/api/posts', PostsRouter)
 
+
 app.use(function errorHandler(error,req,res,next){
     let response
     if (NODE_ENV === 'production'){
@@ -41,7 +42,7 @@ app.use(function errorHandler(error,req,res,next){
 
 var client_id = '89e77e7e9553423e9c5e38735cbe8ef9'; // Your client id
 var client_secret = '80454556465b42caaec097106e436d37'; // Your secret
-var redirect_uri = 'http://localhost:3000/profile'; // Your redirect uri
+var redirect_uri = 'http://localhost:8000/callback'; // Your redirect uri
 
 /**
  * Generates a random string containing numbers and letters
@@ -90,7 +91,6 @@ var generateRandomString = function(length) {
     var state = req.query.state || null;
     var storedState = req.cookies ? req.cookies[stateKey] : null;
 
-    req.app.get('db')
   
     if (state === null || state !== storedState) {
       res.redirect('/#' +
@@ -107,7 +107,7 @@ var generateRandomString = function(length) {
           grant_type: 'authorization_code'
         },
         headers: {
-          'Authorization': 'Basic ' + (new Buffer.alloc(client_id + ':' + client_secret).toString('base64'))
+          'Authorization': 'Basic ' + (new Buffer(client_id + ':' + client_secret).toString('base64'))
         },
         json: true
       };
@@ -117,7 +117,9 @@ var generateRandomString = function(length) {
   
           var access_token = body.access_token,
               refresh_token = body.refresh_token;
-  
+          
+         
+              
           var options = {
             url: 'https://api.spotify.com/v1/me',
             headers: { 'Authorization': 'Bearer ' + access_token },
@@ -129,7 +131,7 @@ var generateRandomString = function(length) {
             console.log(body);
           });
         // we can also pass the token to the browser to make requests from there
-        res.redirect('http://localhost:3000' +
+        res.redirect('http://localhost:3000/profile/#' +
           querystring.stringify({
             access_token: access_token,
             refresh_token: refresh_token

@@ -42,7 +42,7 @@ const Header = () => (
         </Hidden>
         <Grid item>
           <Grid container justify="flex-end">
-            <Icon link>explore_outlined</Icon>
+            <Icon>explore_outlined</Icon>
             <Icon link>favorite_border_rounded</Icon>
             <Icon link>person_outlined</Icon>
           </Grid>

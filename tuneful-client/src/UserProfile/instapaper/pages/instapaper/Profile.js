@@ -11,6 +11,7 @@ import molecules from '../../components/molecules';
 import theme from '../../theme/instapaper/theme';
 import withTheme from './withTheme';
 import Box from '@material-ui/core/Box';
+import Header from '../../components/instapaper/Header';
 
 const { Avatar, Icon, Typography } = atoms;
 const { Tabs, Tab } = molecules;
@@ -38,7 +39,8 @@ function ProfilePage() {
 
   return (
     <React.Fragment>
-            <CssBaseline />   
+            <CssBaseline />  
+            <Header /> 
       <Box component="main" maxWidth={935} margin="auto" padding="60px 20px 0">
         <Box mb="44px">
           <Grid container>

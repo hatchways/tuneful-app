@@ -12,7 +12,8 @@ import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
 import Image from '../Media/home-screen.jpg';
 import Divider from '@material-ui/core/Divider';
-import {Link} from 'react-router-dom'
+import {Link} from 'react-router-dom';
+import useForm from "../CustomHooks/useForm";
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -43,9 +44,11 @@ const useStyles = makeStyles(theme => ({
   },
 }));
 
+
+
 export default function LoginForm() {
   const classes = useStyles();
-
+  const { values, handleChange, handleSubmitJwtAuth } = useForm();
   return (
    <Grid container component="main" className={classes.root}>
       <CssBaseline />
@@ -60,9 +63,11 @@ export default function LoginForm() {
           </Typography>
           
       
-          <form className={classes.form} onError={errors => console.log(errors)} noValidate>
+          <form onSubmit = {handleSubmitJwtAuth} className={classes.form} onError={errors => console.log(errors)} noValidate>
           <Divider variant = "middle" component = "hr" /> 
             <TextField
+              onChange={handleChange}
+              value = {values.email}
               variant="outlined"
               margin="normal"
               required
@@ -75,6 +80,8 @@ export default function LoginForm() {
               style = {{marginTop: '30px'}}
             />
             <TextField
+              onChange={handleChange}
+              value = {values.password}
               variant="outlined"
               margin="normal"
               required
