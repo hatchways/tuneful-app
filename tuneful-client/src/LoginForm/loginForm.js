@@ -5,7 +5,6 @@ import CssBaseline from '@material-ui/core/CssBaseline';
 import TextField from '@material-ui/core/TextField';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import Checkbox from '@material-ui/core/Checkbox';
-import Link from '@material-ui/core/Link';
 import Paper from '@material-ui/core/Paper';
 import Grid from '@material-ui/core/Grid';
 import LibraryMusic from '@material-ui/icons/LibraryMusic';
@@ -13,7 +12,8 @@ import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
 import Image from '../Media/home-screen.jpg';
 import Divider from '@material-ui/core/Divider';
-
+import {Link} from 'react-router-dom';
+import useForm from "../CustomHooks/useForm";
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -44,9 +44,11 @@ const useStyles = makeStyles(theme => ({
   },
 }));
 
+
+
 export default function LoginForm() {
   const classes = useStyles();
-
+  const { values, handleChange, handleSubmitJwtAuth } = useForm();
   return (
    <Grid container component="main" className={classes.root}>
       <CssBaseline />
@@ -59,20 +61,13 @@ export default function LoginForm() {
           <Typography component="h1" variant="h5">
             Tuneful
           </Typography>
-          <Button 
-              href="http://localhost:8000/login"
-              type="submit"
-              fullWidth
-              variant="contained"
-              color="secondary"
-              className={classes.submit}
-            >
-              Login with Spotify
-      </Button>
+          
       
-          <form className={classes.form} noValidate>
+          <form onSubmit = {handleSubmitJwtAuth} className={classes.form} onError={errors => console.log(errors)} noValidate>
           <Divider variant = "middle" component = "hr" /> 
             <TextField
+              onChange={handleChange}
+              value = {values.email}
               variant="outlined"
               margin="normal"
               required
@@ -85,6 +80,8 @@ export default function LoginForm() {
               style = {{marginTop: '30px'}}
             />
             <TextField
+              onChange={handleChange}
+              value = {values.password}
               variant="outlined"
               margin="normal"
               required
@@ -110,12 +107,12 @@ export default function LoginForm() {
             </Button>
             <Grid container>
               <Grid item xs>
-                <Link href="#" variant="body2">
+                <Link to = "/" variant="body2">
                   Forgot password?
                 </Link>
               </Grid>
               <Grid item>
-                <Link href="/register" variant="body2">
+                <Link to ="/register">
                   {"Don't have an account? Sign Up"}
                 </Link>
               </Grid>

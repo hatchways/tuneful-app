@@ -6,9 +6,12 @@ const helmet = require('helmet')
 const { NODE_ENV } = require('./config')
 const authRouter = require('./auth/auth-router')
 const usersRouter = require('./users/users-router')
+const PostsRouter = require('./posts/posts-router')
+const commentsRouter = require('./comments/comments-router')
 var querystring = require('querystring');
 var cookieParser = require('cookie-parser');
 var request = require('request'); // "Request" library
+
 
 const app = express()
 
@@ -22,6 +25,9 @@ app.use(helmet())
 
 app.use('/api/auth', authRouter)
 app.use('/api/users', usersRouter)
+app.use('/api/comments', commentsRouter)
+app.use('/api/posts', PostsRouter)
+
 
 app.use(function errorHandler(error,req,res,next){
     let response
@@ -36,7 +42,7 @@ app.use(function errorHandler(error,req,res,next){
 
 var client_id = '89e77e7e9553423e9c5e38735cbe8ef9'; // Your client id
 var client_secret = '80454556465b42caaec097106e436d37'; // Your secret
-var redirect_uri = 'http://localhost:3000/profile'; // Your redirect uri
+var redirect_uri = 'http://localhost:8000/callback'; // Your redirect uri
 
 /**
  * Generates a random string containing numbers and letters
@@ -84,6 +90,7 @@ var generateRandomString = function(length) {
     var code = req.query.code || null;
     var state = req.query.state || null;
     var storedState = req.cookies ? req.cookies[stateKey] : null;
+
   
     if (state === null || state !== storedState) {
       res.redirect('/#' +
@@ -110,7 +117,9 @@ var generateRandomString = function(length) {
   
           var access_token = body.access_token,
               refresh_token = body.refresh_token;
-  
+          
+         
+              
           var options = {
             url: 'https://api.spotify.com/v1/me',
             headers: { 'Authorization': 'Bearer ' + access_token },
@@ -122,7 +131,7 @@ var generateRandomString = function(length) {
             console.log(body);
           });
         // we can also pass the token to the browser to make requests from there
-        res.redirect('/#' +
+        res.redirect('http://localhost:3000/profile/#' +
           querystring.stringify({
             access_token: access_token,
             refresh_token: refresh_token
