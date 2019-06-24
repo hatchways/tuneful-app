@@ -1,8 +1,10 @@
 import React, { Component } from 'react';
 import { Route, Switch } from 'react-router-dom'
+import PrivateRoute from '../Utils/PrivateRoute'
+import PublicOnlyRoute from '../Utils/PublicRoute'
 import RegistrationForm from '../RegistrationForm/RegistrationForm';
 import LoginForm from '../LoginForm/loginForm';
-import Profile from '../UserProfile/instapaper/pages/instapaper/Profile';
+import Profile from '../UserProfile/Profile';
 import SuccessSignUp from '../RegistrationForm/Success';
 import SearchBar from '../ShareMusic/SearchBar/searchbar'
 
@@ -15,7 +17,7 @@ export default class App extends Component{
       <Route path = '/register' component = {RegistrationForm} />
       <Route path = '/success' component = {SuccessSignUp}/>
       <Route path = '/profile' component = {Profile} />
-      <Route path = '/share-music' component = {SearchBar}/>
+      <PrivateRoute path = '/share-music' component = {SearchBar}/>
       </Switch>
       </main>
     )

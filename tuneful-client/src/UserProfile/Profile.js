@@ -1,5 +1,7 @@
 import React, { useState, useEffect } from 'react';
+
 import Grid from '@material-ui/core/Grid';
+
 import CssBaseline from '@material-ui/core/CssBaseline';
 import { makeStyles } from '@material-ui/core/styles';
 import useMediaQuery from '@material-ui/core/useMediaQuery';
@@ -10,7 +12,7 @@ import withTheme from './instapaper/pages/instapaper/withTheme';
 import Box from '@material-ui/core/Box';
 import Spotify from 'spotify-web-api-js';
 import EditProfile from './instapaper/components/instapaper/EditProfile'
-import Header from './header';
+import Header from './instapaper/components/instapaper/Header';
 
 const spotifyWebApi = new Spotify();
 
@@ -229,4 +231,3 @@ const ProfilePage = () => {
 }
 
 export default withTheme(theme)(ProfilePage);
-
