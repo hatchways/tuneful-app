@@ -1,4 +1,4 @@
-import React from 'react';
+import React,{useState} from 'react';
 import Button from '@material-ui/core/Button';
 import TextField from '@material-ui/core/TextField';
 import Dialog from '@material-ui/core/Dialog';
@@ -9,6 +9,7 @@ import DialogTitle from '@material-ui/core/DialogTitle';
 import { makeStyles } from '@material-ui/core/styles';
 import theme from '../../theme/instapaper/theme';
 import Slide from '@material-ui/core/Slide';
+import UsersService from '../../../../Services/edit-profile-service'
 
 
 const Transition = React.forwardRef(function Transition(props, ref) {
@@ -48,16 +49,28 @@ export default function EditProfile(props) {
         setOpen(false);
     }
 
-    const submit = () => {
-        //  console.log(data)
-        props.changed(data)
-        setOpen(false)
+    const [error,setError] = useState(null);
+    const [values, setValues] = useState({});
+
+
+    const submit = (event) => {
+        if (event) event.preventDefault();
+        const {description} = event.target
+        UsersService.updateUser({
+          description:description
+        })
+          .then(user => {
+            description = ''
+          })
+          .catch(res => {
+            console.log(res.error)
+          })
     }
 
-    const handleChange = (e) => {
-        data[0] = e.target.value;
-        // console.log(data)
-    }
+    const handleChange = (event) => {
+        event.persist()
+        setValues(values => ({ ...values, [event.target.id]: event.target.value }));
+    };
 
     const handleUploadPhoto = (e) => {
         //console.log(e.target.files[0])

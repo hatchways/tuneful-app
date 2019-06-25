@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import AuthApiService from '../Services/auth-api-service';
 import history from '../Services/history';
-import TokenService from '../Services/token-service'
+import TokenService from '../Services/token-service';
 
 
 const useForm = (callback) => {
@@ -25,10 +25,9 @@ const useForm = (callback) => {
           password.value = ''
         })
         .catch(res => {
-          //log error here
-          console.log()
+          console.log(res.error)
+          error(res.error)
         })
-
         history.push('/success')
   };
 
@@ -48,6 +47,8 @@ const useForm = (callback) => {
       })
       .catch(res => {
         setError(res.error)})
+
+        history.push('/profile')
       
  }
 
@@ -61,6 +62,7 @@ const useForm = (callback) => {
     handleSubmit,
     handleSubmitJwtAuth,
     values,
+    error,
   }
 };
 

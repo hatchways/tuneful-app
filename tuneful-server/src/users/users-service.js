@@ -1,9 +1,13 @@
 const bcrypt = require('bcryptjs')
 const xss = require('xss')
 
-const REGEX_UPPER_LOWER_NUMBER = /(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])[\S]+/
+const REGEX_UPPER_LOWER_NUMBER = /(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])+/
 
 const UsersService = {
+  getAllUsers(knex) {
+    return knex.select('*').from('user_accounts')
+  },
+
   hasUserWithEmail(db, email) {
     return db('user_accounts')
       .where({ email })
@@ -17,6 +21,27 @@ const UsersService = {
       .returning('*')
       .then(([user]) => user)
   },
+
+  getById(knex, id) {
+    return knex
+      .from('user_accounts')
+      .select('*')
+      .where('id', id)
+      .first()
+  },
+
+  deleteUser(knex, id) {
+    return knex('user_accounts')
+      .where({ id })
+      .delete()
+  },
+
+  updateUser(knex, id, newUserFields) {
+    return knex('user_accounts')
+      .where({ id })
+      .update(newUserFields)
+  },
+
   validatePassword(password) {
     if (password.length < 8) {
       return 'Password should be longer than 8 characters'
@@ -34,15 +59,6 @@ const UsersService = {
   },
   hashPassword(password) {
     return bcrypt.hash(password, 12)
-  },
-  serializeUser(user) {
-    return {
-      id: user.id,
-      first_name: xss(user.first_name),
-      last_name: xss(user.last_name),
-      email: xss(user.email),
-      date_created: new Date(user.date_created),
-    }
   },
 }
 

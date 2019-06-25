@@ -84,7 +84,7 @@ var generateRandomString = function(length) {
   
   app.get('/callback', function(req, res) {
   
-    // your application requests refresh and access tokens
+    // Application requests refresh and access tokens
     // after checking the state parameter
   
     var code = req.query.code || null;
@@ -118,8 +118,9 @@ var generateRandomString = function(length) {
           var access_token = body.access_token,
               refresh_token = body.refresh_token;
           
-         
-              
+          res.cookie('refresh_token',refresh_token)
+          res.cookie('access_token',access_token)   
+
           var options = {
             url: 'https://api.spotify.com/v1/me',
             headers: { 'Authorization': 'Bearer ' + access_token },
@@ -149,7 +150,8 @@ var generateRandomString = function(length) {
 app.get('/refresh_token', function(req, res) {
 
   // requesting access token from refresh token
-  var refresh_token = req.query.refresh_token;
+  var refresh_token = req.cookies.refresh_token;
+  console.log("##########" + refresh_token);
   var authOptions = {
     url: 'https://accounts.spotify.com/api/token',
     headers: { 'Authorization': 'Basic ' + (new Buffer(client_id + ':' + client_secret).toString('base64')) },
