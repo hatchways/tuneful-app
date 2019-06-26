@@ -1,7 +1,5 @@
 import React, { useState, useEffect } from 'react';
-
 import Grid from '@material-ui/core/Grid';
-
 import CssBaseline from '@material-ui/core/CssBaseline';
 import { makeStyles } from '@material-ui/core/styles';
 import useMediaQuery from '@material-ui/core/useMediaQuery';
@@ -16,8 +14,8 @@ import Header from './instapaper/components/instapaper/Header';
 
 const spotifyWebApi = new Spotify();
 
-const { Avatar, Icon, Typography } = atoms;
-const { Tabs, Tab } = molecules;
+const { Avatar,  Typography } = atoms;
+
 
 const useStyles = makeStyles({
   editButton: {
