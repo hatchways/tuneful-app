@@ -1,10 +1,12 @@
 import config from '../config'
 
 
+
+
 const editProfileService = {
-    updateUser({ description }) {
+    updateUser({ description}) {
       return fetch(`${config.API_ENDPOINT}/users/:user_id`, {
-        method: 'POST',
+        method: 'PATCH',
         headers: {
           'content-type': 'application/json',
         },
