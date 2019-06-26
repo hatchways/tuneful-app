@@ -11,6 +11,8 @@ const commentsRouter = require('./comments/comments-router')
 var querystring = require('querystring');
 var cookieParser = require('cookie-parser');
 var request = require('request'); // "Request" library
+var AWS = require('aws-sdk')
+
 
 
 const app = express()
@@ -39,6 +41,20 @@ app.use(function errorHandler(error,req,res,next){
     }
     res.status(500).json(response)
 })
+
+
+//Amazon S3 setup
+
+AWS.config.update({
+  accessKeyId: AKIAIHGRK3AVPUOHGC5A
+})
+
+const S3 = AWS.S3();
+
+
+
+
+
 
 var client_id = '89e77e7e9553423e9c5e38735cbe8ef9'; // Your client id
 var client_secret = '80454556465b42caaec097106e436d37'; // Your secret
@@ -151,7 +167,7 @@ app.get('/refresh_token', function(req, res) {
 
   // requesting access token from refresh token
   var refresh_token = req.cookies.refresh_token;
-  console.log("##########" + refresh_token);
+
   var authOptions = {
     url: 'https://accounts.spotify.com/api/token',
     headers: { 'Authorization': 'Basic ' + (new Buffer(client_id + ':' + client_secret).toString('base64')) },

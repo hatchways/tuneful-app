@@ -4,14 +4,13 @@ const xss = require('xss')
 const UsersService = require('./users-service')
 
 const usersRouter = express.Router()
-const jsonParser = express.json()
+const jsonBodyParser = express.json()
 
 const serializeUser = user => ({
   id: user.id,
   first_name: xss(user.first_name),
   last_name: xss(user.last_name),
   email: xss(user.email),
-  refresh_token:xss(user.refresh_token),
   description: xss(user.description),
   date_created: user.date_created,
 })
@@ -26,20 +25,38 @@ usersRouter
       })
       .catch(next)
   })
-  .post(jsonParser, (req, res, next) => {
-    const { first_name, last_name, email, password } = req.body
-    const newUser = { first_name, last_name, email,password }
+    .post(jsonBodyParser, (req, res,next) => {
+      const {first_name,last_name, password,email} = req.body
 
-    for (const [key, value] of Object.entries(newUser))
-      if (value == null)
-        return res.status(400).json({
-          error: { message: `Missing '${key}' in request body` }
-        })
+      for (const field of ['first_name', 'last_name', 'email','password'])
+      if (!req.body[field])
+      return res.status(400).json({
+      error: `Missing '${field}' in request body`
+      })
 
-    newUser.email = email;
-    newUser.password = password;    
+      const passwordError = UsersService.validatePassword(password)
+      if (passwordError)
+     return res.status(400).json({ error: passwordError })
 
-    UsersService.insertUser(
+     UsersService.hasUserWithEmail(
+          req.app.get('db'),
+          email
+        )
+           .then(hasUserWithEmail => {
+             if (hasUserWithEmail)
+               return res.status(400).json({ error: `Username already taken` })
+               
+               return UsersService.hashPassword(password)
+               .then(hashedPassword => {
+           const newUser = {
+                    first_name,
+                     last_name,
+                     password: hashedPassword,
+                     email,
+                     date_created: 'now()',
+                   } 
+
+    return UsersService.insertUser(
       req.app.get('db'),
       newUser
     )
@@ -49,6 +66,8 @@ usersRouter
           .location(path.posix.join(req.originalUrl, `/${user.id}`))
           .json(serializeUser(user))
       })
+    })
+  })
       .catch(next)
   })
 
@@ -83,7 +102,7 @@ usersRouter
       })
       .catch(next)
   })
-  .patch(jsonParser, (req, res, next) => {
+  .patch(jsonBodyParser, (req, res, next) => {
     const { first_name, last_name, password, email, description } = req.body
     const userToUpdate = { first_name, last_name, password, email, description }
 
