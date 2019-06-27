@@ -8,11 +8,11 @@ const authRouter = require('./auth/auth-router')
 const usersRouter = require('./users/users-router')
 const PostsRouter = require('./posts/posts-router')
 const commentsRouter = require('./comments/comments-router')
-var querystring = require('querystring');
-var cookieParser = require('cookie-parser');
-var request = require('request'); // "Request" library
-var AWS = require('aws-sdk')
-
+const ImageUploadRouter = require('./imageUpload/image-upload-router')
+const querystring = require('querystring');
+const cookieParser = require('cookie-parser');
+const request = require('request'); // "Request" library
+const bodyParser = require('body-parser')
 
 
 const app = express()
@@ -25,10 +25,13 @@ app.use(morgan(morganOption))
 app.use(cors())
 app.use(helmet())
 
+app.use(bodyParser.json());
+
 app.use('/api/auth', authRouter)
 app.use('/api/users', usersRouter)
 app.use('/api/comments', commentsRouter)
 app.use('/api/posts', PostsRouter)
+app.use('/api',ImageUploadRouter)
 
 
 app.use(function errorHandler(error,req,res,next){
@@ -43,22 +46,10 @@ app.use(function errorHandler(error,req,res,next){
 })
 
 
-//Amazon S3 setup
 
-AWS.config.update({
-  accessKeyId: AKIAIHGRK3AVPUOHGC5A
-})
-
-const S3 = AWS.S3();
-
-
-
-
-
-
-var client_id = '89e77e7e9553423e9c5e38735cbe8ef9'; // Your client id
-var client_secret = '80454556465b42caaec097106e436d37'; // Your secret
-var redirect_uri = 'http://localhost:8000/callback'; // Your redirect uri
+var client_id = process.env.SPOTIFY_CLIENT_ID; // Your client id
+var client_secret = process.env.SPOTIFY_CLIENT_SECRET; // Your secret
+var redirect_uri = process.env.SPOTIFY_REDIRECT_URI; // Your redirect uri
 
 /**
  * Generates a random string containing numbers and letters

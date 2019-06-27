@@ -4,3 +4,4 @@ module.exports = {
     DB_URL: process.env.DB_URL || 'postgresql://postgres:Latino1041@localhost:5433/spotifysocial',
     JWT_SECRET: process.env.JWT_SECRET || 'tuneful-jwt-made-this-secret',
   }
+
