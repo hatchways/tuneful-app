@@ -2,7 +2,7 @@ import { useState } from 'react';
 import AuthApiService from '../Services/auth-api-service';
 import history from '../Services/history';
 import TokenService from '../Services/token-service'
-
+import editProfileService from '../Services/edit-profile-service';
 
 const useForm = (callback) => {
 
@@ -26,7 +26,7 @@ const useForm = (callback) => {
         })
         .catch(res => {
           //log error here
-          console.log()
+          console.log(error)
         })
 
         history.push('/success')
@@ -48,8 +48,25 @@ const useForm = (callback) => {
       })
       .catch(res => {
         setError(res.error)})
-      
+        history.push('/profile')
  }
+
+ const handleEditProfileSubmit = (event) => {
+  event.preventDefault();
+  const {description,image_url} = event.target
+  
+
+  editProfileService.updateUser({
+    description:description.value,
+  })
+    .then(res => {
+      description.value = ''
+    })
+    .catch(res => {
+      console.log(res.error)
+    })
+    history.push('/profile')
+}
 
   const handleChange = (event) => {
     event.persist();
@@ -60,7 +77,9 @@ const useForm = (callback) => {
     handleChange,
     handleSubmit,
     handleSubmitJwtAuth,
+    handleEditProfileSubmit,
     values,
+    error,
   }
 };
 

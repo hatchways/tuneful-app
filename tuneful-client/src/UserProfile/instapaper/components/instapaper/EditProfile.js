@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useEffect } from 'react';
 import Button from '@material-ui/core/Button';
 import TextField from '@material-ui/core/TextField';
 import Dialog from '@material-ui/core/Dialog';
@@ -10,7 +10,6 @@ import { makeStyles } from '@material-ui/core/styles';
 import theme from '../../theme/instapaper/theme';
 import Slide from '@material-ui/core/Slide';
 import useForm from "../../../../CustomHooks/useForm";
-import user_id from "../../../../Services/get-user-id"
 
 const Transition = React.forwardRef(function Transition(props, ref) {
     return <Slide direction="up" ref={ref} {...props} />;
@@ -67,7 +66,8 @@ export default function EditProfile(props) {
     }, []);
 
     useEffect(() => {
-        //update state             
+        //update state    
+
     })
 
 

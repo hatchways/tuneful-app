@@ -1,37 +1,18 @@
 import React, { useState, useEffect } from 'react';
 import Grid from '@material-ui/core/Grid';
 import CssBaseline from '@material-ui/core/CssBaseline';
-import { makeStyles } from '@material-ui/core/styles';
 import useMediaQuery from '@material-ui/core/useMediaQuery';
 import atoms from './instapaper/components/atoms';
-import molecules from './instapaper/components/molecules';
 import theme from './instapaper/theme/instapaper/theme';
 import withTheme from './instapaper/pages/instapaper/withTheme';
 import Box from '@material-ui/core/Box';
 import Spotify from 'spotify-web-api-js';
 import EditProfile from './instapaper/components/instapaper/EditProfile'
 import Header from './instapaper/components/instapaper/Header';
+import user_id from '../Services/get-user-id'
 
 const spotifyWebApi = new Spotify();
-
-const { Avatar,  Typography } = atoms;
-
-
-const useStyles = makeStyles({
-  editButton: {
-    marginLeft: 0,
-    marginTop: 10,
-    [theme.breakpoints.up('sm')]: {
-      marginLeft: 20,
-      marginTop: 0,
-    },
-  },
-  settings: {
-    [theme.breakpoints.up('sm')]: {
-      marginLeft: 5,
-    },
-  },
-});
+const { Avatar, Typography } = atoms;
 
 /**
  * Obtains parameters from the hash of the URL
@@ -44,7 +25,7 @@ const getHashParams = () => {
   // eslint-disable-next-line
   while (e = r.exec(q)) {
     hashParams[e[1]] = decodeURIComponent(e[2]);
-  }  
+  }
   return hashParams;
 }
 
@@ -53,13 +34,11 @@ const params = getHashParams();
 if (params.access_token) {
   //ACCESS TOKEN
   spotifyWebApi.setAccessToken(params.access_token)
-  
+
 }
 
 const ProfilePage = () => {
 
-  const [tabIndex, setTabIndex] = useState(0);
-  const classes = useStyles();
   const upSm = useMediaQuery(theme.breakpoints.up('sm'), { defaultMatches: true });
   const [userProfileState, setUserProfileState] = useState(
     {
@@ -68,7 +47,7 @@ const ProfilePage = () => {
         name: '',
         email: '',
         image: '',
-        description: 'Default Description'
+        description: ''
       }
     }
   )
@@ -76,36 +55,58 @@ const ProfilePage = () => {
   useEffect(() => {
     //with Hooks the useEffect repalces the componentDidMount. This stops the render from running this code eternally
 
-    spotifyWebApi.getMe()
-      .then((response) => {
-        console.log(response)
-        //set the state now
+    fetch(`http://localhost:8000/api/users/${user_id}`)
+      .then(results => {
+        return results.json()
+      })
+      .then(data => {
+        console.log(data)
+        console.log(data.description)
         setUserProfileState({
           user: {
             ...userProfileState.user,
-            name: response.display_name,
-            email: response.email,
-            image: response.images[0].url,
+            description: data.description
           }
         })
       })
+
     //take note of the empty array at the bottom, that's important to make sure it doesn't run again
   }, []);
+
+  useEffect(() => {
+
+
+    //update state    
+    // spotifyWebApi.getMe()
+    // .then((response) => {
+    //   console.log(response)
+    //   //set the state now
+    //   setUserProfileState({
+    //     user: {
+    //       ...userProfileState.user,
+    //       name: response.display_name,
+    //       email: response.email,
+    //       image: response.images[0].url,
+    //     }
+    //   })
+    // })
+  })
 
 
   const profileChange = (e) => {
     //grabs the data from EditProfile. It's an array, e[0] is the description text, and e[1] is the image file
     console.log('PROFILE CHANGE')
     console.log(e)
-    
+
+
     //PUT TO DATABASE!!!!!!!!
 
-    setUserProfileState({
-      user: {
-        ...userProfileState.user,
-        description: e[0]
-      }
-    })
+    // setUserProfileState({
+    //   user: {
+    //     ...userProfileState.user,
+    //     description: e[0]
+    //   }
+    // })
   }
 
 
