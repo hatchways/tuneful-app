@@ -48,7 +48,7 @@ const useForm = (callback) => {
       })
       .catch(res => {
         setError(res.error)})
-        history.push('/profile')
+        //history.push('/profile')
  }
 
  const handleEditProfileSubmit = (event) => {

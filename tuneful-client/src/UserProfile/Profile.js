@@ -10,6 +10,9 @@ import Spotify from 'spotify-web-api-js';
 import EditProfile from './instapaper/components/instapaper/EditProfile'
 import Header from './instapaper/components/instapaper/Header';
 import user_id from '../Services/get-user-id'
+import Post from '../UserProfile/instapaper/components/instapaper/Post'
+
+
 
 const spotifyWebApi = new Spotify();
 const { Avatar, Typography } = atoms;
@@ -51,6 +54,10 @@ const ProfilePage = () => {
       }
     }
   )
+  const [userPostsState, setUserPostsState] = useState(
+    ["test1","test2"]
+  )
+
 
   useEffect(() => {
     //with Hooks the useEffect repalces the componentDidMount. This stops the render from running this code eternally
@@ -70,11 +77,25 @@ const ProfilePage = () => {
         })
       })
 
+    fetch(`http://localhost:8000/api/posts/author/${user_id}`)
+      .then(results => {
+        return results.json()
+      })
+      .then(posts => {
+        //   console.log(posts)       
+        setUserPostsState(posts)
+      }
+      )
+
+
+    //get the users posts and display them
+
     //take note of the empty array at the bottom, that's important to make sure it doesn't run again
   }, []);
 
   useEffect(() => {
-
+    console.log(userPostsState)
+    userPostsState.map(item => console.log(item.id))
 
     //update state    
     // spotifyWebApi.getMe()
@@ -160,7 +181,10 @@ const ProfilePage = () => {
         </Box>
 
         <Grid container spacing={4}>
-          <Grid item xs={4}>
+
+          {userPostsState.map((item) => (<Post key = {item.id} src={item.image_url}/>))}
+
+          <Grid item xs={4}>         
             <img
               alt="post"
               style={{ width: '100%' }}
