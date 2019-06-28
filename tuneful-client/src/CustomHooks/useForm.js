@@ -27,7 +27,6 @@ const useForm = (callback) => {
           password.value = ''
         })
         .catch(res => {
-
           console.log(res.error)
           error(res.error)
 
@@ -53,9 +52,9 @@ const useForm = (callback) => {
         TokenService.saveAuthToken(res.authToken)
       })
       .catch(res => {
-
         setError(res.error)})      
 
+        history.push('/profile')
  }
 
  const handleEditProfileSubmit = (event) => {

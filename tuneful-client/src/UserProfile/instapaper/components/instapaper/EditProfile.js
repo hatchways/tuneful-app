@@ -20,9 +20,6 @@ export default function EditProfile(props) {
     const [open, setOpen] = React.useState(false);
     const { values, handleEditProfileSubmit, handleChange } = useForm();    
 
-    const { values,handleEditProfileSubmit,handleChange } = useForm();
-
-
     const useStyles = makeStyles({
         editButton: {
             background: "#828282",

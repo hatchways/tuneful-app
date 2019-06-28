@@ -75,7 +75,6 @@ const ProfilePage = () => {
 
   useEffect(() => {
 
-
     //update state    
     // spotifyWebApi.getMe()
     // .then((response) => {
@@ -97,7 +96,6 @@ const ProfilePage = () => {
     //grabs the data from EditProfile. It's an array, e[0] is the description text, and e[1] is the image file
     console.log('PROFILE CHANGE')
     console.log(e)
-
 
     //PUT TO DATABASE!!!!!!!!
 
