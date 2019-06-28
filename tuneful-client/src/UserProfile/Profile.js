@@ -78,6 +78,7 @@ const ProfilePage = () => {
         })
       })
 
+
     //get the users posts and display them
     fetch(`http://localhost:8000/api/posts/author/${user_id}`)
       .then(results => {
@@ -90,6 +91,7 @@ const ProfilePage = () => {
       )
 
     //SPOTIFY CODE
+
     // spotifyWebApi.getMe()
     // .then((response) => {
     //   console.log(response)
@@ -120,7 +122,6 @@ const ProfilePage = () => {
     //grabs the data from EditProfile. It's an array, e[0] is the description text, and e[1] is the image file
     console.log('PROFILE CHANGE')
     console.log(e)
-
 
     //PUT TO DATABASE!!!!!!!!
 
