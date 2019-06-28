@@ -1,14 +1,16 @@
 
-const retrievedObject = localStorage.getItem('tuneful-client-auth-token');
-const parseJwt = (token) => {
-  try {
-    return JSON.parse(atob(token.split('.')[1]));
-  } catch (e) {
-    return null;
-  }
-};
-const userJSONData = parseJwt(retrievedObject)
-//console.log(userJSONData) 
-const user_id = userJSONData.user_id
+let retrievedObject = ""
+let userJSONData = ""
+let user_id = ""
+
+try{
+   retrievedObject = localStorage.getItem('tuneful-client-auth-token');
+   userJSONData = JSON.parse(atob(retrievedObject.split('.')[1]));
+   user_id = userJSONData.user_id
+}
+catch(e){
+  user_id = ""
+}
+
 
 export default user_id

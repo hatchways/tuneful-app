@@ -10,6 +10,9 @@ import Spotify from 'spotify-web-api-js';
 import EditProfile from './instapaper/components/instapaper/EditProfile'
 import Header from './instapaper/components/instapaper/Header';
 import user_id from '../Services/get-user-id'
+import Post from '../UserProfile/instapaper/components/instapaper/Post'
+
+
 
 const spotifyWebApi = new Spotify();
 const { Avatar, Typography } = atoms;
@@ -51,10 +54,15 @@ const ProfilePage = () => {
       }
     }
   )
+  const [userPostsState, setUserPostsState] = useState(
+    ["test1", "test2"]
+  )
+
 
   useEffect(() => {
     //with Hooks the useEffect repalces the componentDidMount. This stops the render from running this code eternally
 
+    //get user data
     fetch(`http://localhost:8000/api/users/${user_id}`)
       .then(results => {
         return results.json()
@@ -70,12 +78,20 @@ const ProfilePage = () => {
         })
       })
 
-    //take note of the empty array at the bottom, that's important to make sure it doesn't run again
-  }, []);
 
-  useEffect(() => {
+    //get the users posts and display them
+    fetch(`http://localhost:8000/api/posts/author/${user_id}`)
+      .then(results => {
+        return results.json()
+      })
+      .then(posts => {
+        //   console.log(posts)       
+        setUserPostsState(posts)
+      }
+      )
 
-    //update state    
+    //SPOTIFY CODE
+
     // spotifyWebApi.getMe()
     // .then((response) => {
     //   console.log(response)
@@ -88,7 +104,17 @@ const ProfilePage = () => {
     //       image: response.images[0].url,
     //     }
     //   })
-    // })
+    // })   
+
+    //take note of the empty array at the bottom, that's important to make sure it doesn't run again
+  }, []);
+
+  useEffect(() => {
+
+    console.log(userPostsState)
+    userPostsState.map(item => console.log(item.id))
+
+
   })
 
 
@@ -158,69 +184,18 @@ const ProfilePage = () => {
         </Box>
 
         <Grid container spacing={4}>
-          <Grid item xs={4}>
-            <img
-              alt="post"
-              style={{ width: '100%' }}
-              src="https://4.bp.blogspot.com/-u2TBKWRzGZ8/Vn7Uyu3dNvI/AAAAAAAAPKM/NrPqOe0dSx8/s400/The%2BTubes%2B-%2BThe%2BCompletion%2BBackward%2BPrinciple.jpg"
-            />
-          </Grid>
-          <Grid item xs={4}>
-            <img
-              alt="post"
-              style={{ width: '100%' }}
-              src="http://s.cdon.com/media-dynamic/images/product/music/album/image4/anything_in_return_import-toro_y_moi-22112024-588518459-frnt.jpg"
-            />
-          </Grid>
-          <Grid item xs={4}>
-            <img
-              alt="post"
-              style={{ width: '100%' }}
-              src="https://upload.wikimedia.org/wikipedia/en/4/42/Beatles_-_Abbey_Road.jpg"
-            />
-          </Grid>
-          <Grid item xs={4}>
-            <img
-              alt="post"
-              style={{ width: '100%' }}
-              src="https://imagescdn.juno.co.uk/full/CS519709-01A-BIG.jpg"
-            />
-          </Grid>
-          <Grid item xs={4}>
-            <img
-              alt="post"
-              style={{ width: '100%' }}
-              src="https://i.scdn.co/image/1ee2851cfa3c823cfde5c8d15e31fa82d71d4a2e"
-            />
-          </Grid>
-          <Grid item xs={4}>
-            <img
-              alt="post"
-              style={{ width: '100%' }}
-              src="https://upload.wikimedia.org/wikipedia/en/d/d7/BBNG_%28album%29.png"
-            />
-          </Grid>
-          <Grid item xs={4}>
-            <img
-              alt="post"
-              style={{ width: '100%' }}
-              src="https://assets.lnwy.co/app/uploads/2017/11/28212752/lnwy-playlist-november-men-i-trust-1200x1200.jpg"
-            />
-          </Grid>
-          <Grid item xs={4}>
-            <img
-              alt="post"
-              style={{ width: '100%' }}
-              src="https://upload.wikimedia.org/wikipedia/en/f/ff/Stoneroses.jpg"
-            />
-          </Grid>
-          <Grid item xs={4}>
-            <img
-              alt="post"
-              style={{ width: '100%' }}
-              src="https://fanart.tv/fanart/music/63aa26c3-d59b-4da4-84ac-716b54f1ef4d/albumcover/lonerism-5077971de6808.jpg"
-            />
-          </Grid>
+
+          {userPostsState.map((item) => (
+            <Grid key = {item.id} item xs={4}>
+              <img              
+                alt="post"
+                style={{ width: '100%' }}
+                src={item.image_url}
+              />
+            </Grid>
+          ))}
+
+         
         </Grid>
       </Box>
     </React.Fragment>
