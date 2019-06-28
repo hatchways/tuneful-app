@@ -20,6 +20,9 @@ export default function EditProfile(props) {
     const [open, setOpen] = React.useState(false);
     const { values, handleEditProfileSubmit, handleChange } = useForm();    
 
+    const { values,handleEditProfileSubmit,handleChange } = useForm();
+
+
     const useStyles = makeStyles({
         editButton: {
             background: "#828282",
@@ -48,10 +51,12 @@ export default function EditProfile(props) {
         setOpen(false);
     }
 
+
     const handleUploadPhoto = (e) => {
         //console.log(e.target.files[0])
         data[1] = e.target.files[0]
     }
+
 
 
     useEffect(() => {
@@ -71,6 +76,7 @@ export default function EditProfile(props) {
     })
 
 
+
     return (
         <div>
             <Button className={classes.editButton} variant="outlined" onClick={handleClickOpen}>
@@ -80,48 +86,52 @@ export default function EditProfile(props) {
                 open={open}
                 onClose={handleClose}
                 aria-labelledby="form-dialog-title">
-                <form onSubmit={handleEditProfileSubmit} className={classes.form} onError={errors => console.log(errors)}>
 
-                    <DialogTitle id="form-dialog-title">Edit Profile</DialogTitle>
-                    <DialogContent>
-                        <DialogContentText>
-                            Please enter a description or upload a new profile picture.
-                        </DialogContentText>
-                        <TextField
-                            onChange={handleChange}
-                            autoFocus
-                            value={values.description}
-                            margin="dense"
-                            id="description"
-                            label="Description"
-                            type="text"
-                            fullWidth
-                        />
+             <form onSubmit={handleEditProfileSubmit} className={classes.form} onError={errors => console.log(errors)}>
 
-                        <input
-                            accept="image/*"
-                            className={classes.input}
-                            style={{ display: 'none' }}
-                            id="raised-button-file"
-                            multiple
-                            type="file"
-                            onChange={handleUploadPhoto}
-                        />
-                        <label htmlFor="raised-button-file">
-                            <Button variant="outlined" component="span" className={classes.uploadPhotoButton}>
-                                Upload Photo
-                        </Button>
-                        </label>
+                <DialogTitle id="form-dialog-title">Edit Profile</DialogTitle>
+                
+                <DialogContent>
+                    <DialogContentText>
+                        Please enter a description or upload a new profile picture.
+          </DialogContentText>
+                    <TextField
+                        onchange = {handleChange}
+                        autoFocus
+                        value = {values.description}
+                        margin="dense"
+                        id="description"
+                        label="Description"
+                        type="text"
+                        fullWidth
+                    />
 
-                    </DialogContent>
-                    <DialogActions>
-                        <Button onClick={handleClose} color="primary">
-                            Cancel
+                    <input
+                        accept="image/*"
+                        className={classes.input}
+                        style={{ display: 'none' }}
+                        id="raised-button-file"
+                        multiple
+                        type="file"
+                        onChange={handleUploadPhoto}
+                    />
+                    <label htmlFor="raised-button-file">
+                        <Button variant="outlined" component="span" className={classes.uploadPhotoButton}>
+                            Upload Photo
                         </Button>
-                        <Button type="submit" color="primary" className={classes.submit}>
-                            Enter
-                        </Button>
-                    </DialogActions>
+                    </label>                 
+                   
+                </DialogContent>
+                <DialogActions>
+                    <Button onClick={handleClose} color="primary">
+                        Cancel
+          </Button>
+                    <Button type= "submit" color="primary" className={classes.submit}>
+                        Enter
+          </Button>
+          
+                </DialogActions>
+
                 </form>
             </Dialog>
         </div>
