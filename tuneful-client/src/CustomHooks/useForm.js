@@ -1,7 +1,9 @@
 import { useState } from 'react';
 import AuthApiService from '../Services/auth-api-service';
 import history from '../Services/history';
+
 import TokenService from '../Services/token-service';
+
 import editProfileService from '../Services/edit-profile-service';
 
 const useForm = (callback) => {
@@ -25,8 +27,10 @@ const useForm = (callback) => {
           password.value = ''
         })
         .catch(res => {
+
           console.log(res.error)
           error(res.error)
+
         })
         history.push('/success')
   };
@@ -49,7 +53,9 @@ const useForm = (callback) => {
         TokenService.saveAuthToken(res.authToken)
       })
       .catch(res => {
+
         setError(res.error)})      
+
  }
 
  const handleEditProfileSubmit = (event) => {
@@ -66,6 +72,9 @@ const useForm = (callback) => {
     .catch(res => {
       console.log(res.error)
     })
+
+    history.push('/profile')
+
 }
 
   const handleChange = (event) => {

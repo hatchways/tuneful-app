@@ -10,9 +10,6 @@ import { makeStyles } from '@material-ui/core/styles';
 import Image from '../Media/home-screen.jpg';
 
 
-
-
-
 const useStyles = makeStyles(theme => ({
   root: {
     height: '100vh',
@@ -43,11 +40,7 @@ const useStyles = makeStyles(theme => ({
 }));
 
 export default function SucessSignUp() {
-    const classes = useStyles();
-  
-
-    
-
+    const classes = useStyles();  
 
   return (
     <Grid container component="main" className={classes.root}>
@@ -70,9 +63,7 @@ export default function SucessSignUp() {
               className={classes.submit}
             >
               Connect with Spotify
-      </Button>
-
-        
+      </Button>       
         </div>
       </Grid>
     </Grid>

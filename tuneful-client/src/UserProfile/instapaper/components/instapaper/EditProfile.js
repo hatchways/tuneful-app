@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import Button from '@material-ui/core/Button';
 import TextField from '@material-ui/core/TextField';
 import Dialog from '@material-ui/core/Dialog';
@@ -18,6 +18,7 @@ let data = ["", ""];
 
 export default function EditProfile(props) {
     const [open, setOpen] = React.useState(false);
+    const { values, handleEditProfileSubmit, handleChange } = useForm();    
 
     const { values,handleEditProfileSubmit,handleChange } = useForm();
 
@@ -42,7 +43,6 @@ export default function EditProfile(props) {
 
     const classes = useStyles();
 
-
     function handleClickOpen() {
         setOpen(true);
     }
@@ -51,11 +51,30 @@ export default function EditProfile(props) {
         setOpen(false);
     }
 
-  
+
     const handleUploadPhoto = (e) => {
         //console.log(e.target.files[0])
         data[1] = e.target.files[0]
     }
+
+
+
+    useEffect(() => {
+        // fetch(`http://localhost:8000/api/users/${user_id}`)
+        //     .then(results => {
+        //         return results.json()
+        //     })
+        //     .then(data => {
+        //         console.log(data)
+        //         console.log(data.description)
+        //     })
+    }, []);
+
+    useEffect(() => {
+        //update state    
+
+    })
+
 
 
     return (
@@ -67,6 +86,7 @@ export default function EditProfile(props) {
                 open={open}
                 onClose={handleClose}
                 aria-labelledby="form-dialog-title">
+
              <form onSubmit={handleEditProfileSubmit} className={classes.form} onError={errors => console.log(errors)}>
 
                 <DialogTitle id="form-dialog-title">Edit Profile</DialogTitle>
@@ -111,6 +131,7 @@ export default function EditProfile(props) {
           </Button>
           
                 </DialogActions>
+
                 </form>
             </Dialog>
         </div>
