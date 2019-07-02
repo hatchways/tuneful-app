@@ -1,9 +1,7 @@
 import { useState } from 'react';
 import AuthApiService from '../Services/auth-api-service';
 import history from '../Services/history';
-
 import TokenService from '../Services/token-service';
-
 import editProfileService from '../Services/edit-profile-service';
 
 const useForm = (callback) => {
@@ -39,9 +37,6 @@ const useForm = (callback) => {
     event.preventDefault()
     const { email, password } = event.target
  
-    console.log('login form submitted')
-    console.log({ email, password })
-
     AuthApiService.postLogin({
       email: email.value,
       password: password.value,
@@ -55,8 +50,9 @@ const useForm = (callback) => {
 
         setError(res.error)})      
 
-        history.push('/profile')
-
+       window.setTimeout(()=>{
+         history.push('/spotify-login');
+       },1000)
  }
 
  const handleEditProfileSubmit = (event) => {

@@ -17,6 +17,10 @@ export default class App extends Component{
       <Route path = '/success' component = {SuccessSignUp}/>
       <Route path = '/profile' component = {Profile} />
       <PrivateRoute path = '/share-music' component = {SearchBar}/>
+      <Route path = '/spotify-login' component={() => { 
+     window.location.href = 'http://localhost:8000/api/spotify-login'; 
+     return null;
+}}/>
       </Switch>
       </main>
     )

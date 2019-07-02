@@ -1,7 +1,7 @@
 import React from 'react';
 import AppBar from '@material-ui/core/AppBar';
 import Grid from '@material-ui/core/Grid';
-import atoms from '../atoms';
+import atoms from './instapaper/components/atoms';
 import LibraryMusic from '@material-ui/icons/LibraryMusic';
 import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';

@@ -7,10 +7,10 @@ import theme from './instapaper/theme/instapaper/theme';
 import withTheme from './instapaper/pages/instapaper/withTheme';
 import Box from '@material-ui/core/Box';
 import Spotify from 'spotify-web-api-js';
-import EditProfile from './instapaper/components/instapaper/EditProfile'
-import Header from './instapaper/components/instapaper/Header';
+import EditProfile from './EditProfile'
+import Header from './Header';
 import user_id from '../Services/get-user-id'
-import Post from '../UserProfile/instapaper/components/instapaper/Post'
+import Post from './Post'
 
 
 
@@ -92,29 +92,32 @@ const ProfilePage = () => {
 
     //SPOTIFY CODE
 
-    // spotifyWebApi.getMe()
-    // .then((response) => {
-    //   console.log(response)
-    //   //set the state now
-    //   setUserProfileState({
-    //     user: {
-    //       ...userProfileState.user,
-    //       name: response.display_name,
-    //       email: response.email,
-    //       image: response.images[0].url,
-    //     }
-    //   })
-    // })   
+     spotifyWebApi.getMe()
+     .then((response) => {
+       console.log(response)
+       setUserProfileState({
+         user: {
+           ...userProfileState.user,
+           name: response.display_name,
+           email: response.email,
+           image: response.images[0].url,
+         }
+       })
+     })   
 
     //take note of the empty array at the bottom, that's important to make sure it doesn't run again
   }, []);
 
   useEffect(() => {
 
-    console.log(userPostsState)
-    userPostsState.map(item => console.log(item.id))
-
-
+    try{
+     // console.log(userPostsState)
+     //userPostsState.map(item => console.log(item.id))
+    }
+    catch(e) {
+      //console.log("No user posts")
+     // setUserPostsState([])
+    } 
   })
 
 
@@ -183,9 +186,9 @@ const ProfilePage = () => {
           </Grid>
         </Box>
 
-        <Grid container spacing={4}>
+       <Grid container spacing={4}>
 
-          {userPostsState.map((item) => (
+        {/* A JSX comment    {userPostsState.map((item) => (
             <Grid key = {item.id} item xs={4}>
               <img              
                 alt="post"
@@ -194,6 +197,7 @@ const ProfilePage = () => {
               />
             </Grid>
           ))}
+          */}
 
          
         </Grid>
