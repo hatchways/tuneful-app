@@ -7,10 +7,10 @@ import theme from './instapaper/theme/instapaper/theme';
 import withTheme from './instapaper/pages/instapaper/withTheme';
 import Box from '@material-ui/core/Box';
 import Spotify from 'spotify-web-api-js';
-import EditProfile from './instapaper/components/instapaper/EditProfile'
-import Header from './instapaper/components/instapaper/Header';
+import EditProfile from './EditProfile'
+import Header from './Header';
 import user_id from '../Services/get-user-id'
-import Post from '../UserProfile/instapaper/components/instapaper/Post'
+import Post from './Post'
 
 const spotifyWebApi = new Spotify();
 const { Avatar, Typography } = atoms;
