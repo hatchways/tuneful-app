@@ -14,6 +14,7 @@ import useForm from "../../../../CustomHooks/useForm";
 const Transition = React.forwardRef(function Transition(props, ref) {
     return <Slide direction="up" ref={ref} {...props} />;
 });
+
 let data = ["", ""];
 
 export default function EditProfile(props) {
@@ -27,15 +28,9 @@ export default function EditProfile(props) {
             marginLeft: 0,
             marginTop: 12,
             [theme.breakpoints.up('sm')]: {
-                marginLeft: 20,
-                //  marginTop: 0,
+                marginLeft: 20,               
             },
-        },
-        uploadPhotoButton: {
-            marginTop: 12,
-        }, uploadCaption: {
-            marginTop: 10,
-        }
+        }        
     });
 
     const classes = useStyles();
@@ -48,37 +43,27 @@ export default function EditProfile(props) {
         setOpen(false);
     }
 
-
     const handleUploadPhoto = (e) => {
         //console.log(e.target.files[0])
         data[1] = e.target.files[0]
     }
 
-
-
     useEffect(() => {
-        // fetch(`http://localhost:8000/api/users/${user_id}`)
-        //     .then(results => {
-        //         return results.json()
-        //     })
-        //     .then(data => {
-        //         console.log(data)
-        //         console.log(data.description)
-        //     })
+      
     }, []);
 
     useEffect(() => {
         //update state    
-
     })
-
-
 
     return (
         <div>
-            <Button className={classes.editButton} variant="outlined" onClick={handleClickOpen}>
+            <Button
+             className={classes.editButton} 
+             variant="outlined" 
+             onClick={handleClickOpen}>
                 Edit Profile
-      </Button>
+              </Button>
             <Dialog TransitionComponent={Transition}
                 open={open}
                 onClose={handleClose}
@@ -91,7 +76,7 @@ export default function EditProfile(props) {
                 <DialogContent>
                     <DialogContentText>
                         Please enter a description or upload a new profile picture.
-          </DialogContentText>
+                   </DialogContentText>
                     <TextField
                         onchange = {handleChange}
                         autoFocus
@@ -122,13 +107,11 @@ export default function EditProfile(props) {
                 <DialogActions>
                     <Button onClick={handleClose} color="primary">
                         Cancel
-          </Button>
+                   </Button>
                     <Button type= "submit" color="primary" className={classes.submit}>
                         Enter
-          </Button>
-          
+                      </Button>          
                 </DialogActions>
-
                 </form>
             </Dialog>
         </div>

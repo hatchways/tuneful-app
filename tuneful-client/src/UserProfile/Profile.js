@@ -12,8 +12,6 @@ import Header from './instapaper/components/instapaper/Header';
 import user_id from '../Services/get-user-id'
 import Post from '../UserProfile/instapaper/components/instapaper/Post'
 
-
-
 const spotifyWebApi = new Spotify();
 const { Avatar, Typography } = atoms;
 
@@ -92,6 +90,7 @@ const ProfilePage = () => {
 
     //SPOTIFY CODE
 
+
     // spotifyWebApi.getMe()
     // .then((response) => {
     //   console.log(response)
@@ -111,28 +110,23 @@ const ProfilePage = () => {
 
   useEffect(() => {
 
-    console.log(userPostsState)
-    userPostsState.map(item => console.log(item.id))
 
+    try{
+     // console.log(userPostsState)
+      userPostsState.map(item => console.log(item.id))
+    }
+    catch(e) {
+      console.log("No user posts")
+      setUserPostsState([])
+    } 
 
   })
-
 
   const profileChange = (e) => {
     //grabs the data from EditProfile. It's an array, e[0] is the description text, and e[1] is the image file
     console.log('PROFILE CHANGE')
-    console.log(e)
-
-    //PUT TO DATABASE!!!!!!!!
-
-    // setUserProfileState({
-    //   user: {
-    //     ...userProfileState.user,
-    //     description: e[0]
-    //   }
-    // })
+    console.log(e)   
   }
-
 
   return (
     <React.Fragment>
@@ -185,15 +179,17 @@ const ProfilePage = () => {
 
         <Grid container spacing={4}>
 
-          {userPostsState.map((item) => (
-            <Grid key = {item.id} item xs={4}>
-              <img              
-                alt="post"
-                style={{ width: '100%' }}
-                src={item.image_url}
-              />
-            </Grid>
-          ))}
+        {userPostsState.map((item) => (
+          
+          <Post
+          post_data = {item}
+          key = {item.id}
+          image_url = {item.image_url}
+          id = {item.id}
+          ></Post>          
+          
+          ))}         
+
 
          
         </Grid>
