@@ -104,8 +104,6 @@ const ProfilePage = () => {
          }
        })
      })   
-
-    //take note of the empty array at the bottom, that's important to make sure it doesn't run again
   }, []);
 
   useEffect(() => {

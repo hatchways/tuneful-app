@@ -23,13 +23,11 @@ const useForm = (callback) => {
           last_name.value = ''
           email.value = ''
           password.value = ''
+          history.push('/success')
         })
         .catch(res => {
           console.log(res.error)
-          error(res.error)
-
         })
-        history.push('/success')
   };
 
 
@@ -79,11 +77,18 @@ const useForm = (callback) => {
     setValues(values => ({ ...values, [event.target.id]: event.target.value }));
   };
 
+  const handleLogoutClick = ()=>{
+    TokenService.clearAuthToken();
+    history.push('/profile')
+  };
+
+
   return {
     handleChange,
     handleSubmit,
     handleSubmitJwtAuth,
     handleEditProfileSubmit,
+    handleLogoutClick,
     values,
     error,
   }
