@@ -55,7 +55,7 @@ export default function SucessSignUp() {
             Tuneful
           </Typography>
           <Button 
-              href="http://localhost:8000/login"
+              href="http://localhost:8000/api/spotify-login"
               type="submit"
               fullWidth
               variant="contained"

@@ -1,9 +1,7 @@
 import { useState } from 'react';
 import AuthApiService from '../Services/auth-api-service';
 import history from '../Services/history';
-
 import TokenService from '../Services/token-service';
-
 import editProfileService from '../Services/edit-profile-service';
 
 const useForm = (callback) => {
@@ -25,13 +23,11 @@ const useForm = (callback) => {
           last_name.value = ''
           email.value = ''
           password.value = ''
+          history.push('/success')
         })
         .catch(res => {
           console.log(res.error)
-          error(res.error)
-
         })
-        history.push('/success')
   };
 
 
@@ -39,9 +35,6 @@ const useForm = (callback) => {
     event.preventDefault()
     const { email, password } = event.target
  
-    console.log('login form submitted')
-    console.log({ email, password })
-
     AuthApiService.postLogin({
       email: email.value,
       password: password.value,
@@ -55,8 +48,9 @@ const useForm = (callback) => {
 
         setError(res.error)})      
 
-        history.push('/profile')
-
+       window.setTimeout(()=>{
+         history.push('/spotify-login');
+       },1000)
  }
 
  const handleEditProfileSubmit = (event) => {
@@ -82,11 +76,18 @@ const useForm = (callback) => {
     setValues(values => ({ ...values, [event.target.id]: event.target.value }));
   };
 
+  const handleLogoutClick = ()=>{
+    TokenService.clearAuthToken();
+    history.push('/profile')
+  };
+
+
   return {
     handleChange,
     handleSubmit,
     handleSubmitJwtAuth,
     handleEditProfileSubmit,
+    handleLogoutClick,
     values,
     error,
   }

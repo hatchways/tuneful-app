@@ -90,22 +90,18 @@ const ProfilePage = () => {
 
     //SPOTIFY CODE
 
-
-    // spotifyWebApi.getMe()
-    // .then((response) => {
-    //   console.log(response)
-    //   //set the state now
-    //   setUserProfileState({
-    //     user: {
-    //       ...userProfileState.user,
-    //       name: response.display_name,
-    //       email: response.email,
-    //       image: response.images[0].url,
-    //     }
-    //   })
-    // })   
-
-    //take note of the empty array at the bottom, that's important to make sure it doesn't run again
+     spotifyWebApi.getMe()
+     .then((response) => {
+       console.log(response)
+       setUserProfileState({
+         user: {
+           ...userProfileState.user,
+           name: response.display_name,
+           email: response.email,
+           image: response.images[0].url,
+         }
+       })
+     })   
   }, []);
 
   useEffect(() => {
@@ -177,7 +173,7 @@ const ProfilePage = () => {
           </Grid>
         </Box>
 
-        <Grid container spacing={4}>
+       <Grid container spacing={4}>
 
         {userPostsState.map((item) => (
           

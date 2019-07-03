@@ -9,7 +9,7 @@ import DialogTitle from '@material-ui/core/DialogTitle';
 import { makeStyles } from '@material-ui/core/styles';
 import theme from './instapaper/theme/instapaper/theme';
 import Slide from '@material-ui/core/Slide';
-import useForm from "../CustomHooks/useForm";
+import useForm from "../Services/useForm";
 
 const Transition = React.forwardRef(function Transition(props, ref) {
     return <Slide direction="up" ref={ref} {...props} />;

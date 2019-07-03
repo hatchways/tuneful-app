@@ -15,7 +15,6 @@ var redirect_uri = process.env.SPOTIFY_REDIRECT_URI; // Your redirect uri
 var stateKey = 'spotify_auth_state';
 
 SpotifyRouter.get('/spotify-login', function (req, res) {
-    console.log("###################"+ redirect_uri) 
 
     var state = generateRandomString(16);
     res.cookie(stateKey, state);

@@ -6,4 +6,4 @@ const app = express()
 
 app.use(cookieParser());
 
-console.log(req.cookies.referesh_token)
+console.log(process.env.SPOTIFY_CLIENT_ID)

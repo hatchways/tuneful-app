@@ -7,6 +7,7 @@ import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
 import Button from '@material-ui/core/Button';
 import Avatar from '@material-ui/core/Avatar';
+import useForm from '../Services/useForm'
 
 const { Divider, Toolbar } = atoms;
 
@@ -26,6 +27,7 @@ const useStyles = makeStyles(theme => ({
 
 
 const Header = () => {
+  const { handleLogoutClick } = useForm();
   const classes = useStyles()
   return (
     <AppBar className={classes.header1} position="sticky" color="default" elevation={0}>
@@ -44,7 +46,7 @@ const Header = () => {
               <Button href = "/share-music" variant="outlined">Share Music</Button>
               <Button >Discover</Button>
               <Button >Messages</Button>
-              <Button >Logout</Button>
+              <Button onClick = {handleLogoutClick}>Logout</Button>
               <Avatar className={classes.avatar}>T</Avatar>
             </Grid>
           </Grid>
