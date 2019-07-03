@@ -45,10 +45,10 @@ const ProfilePage = () => {
     {
       loggedIn: params.access_token ? true : false,
       user: {
-        name: '',
+        name: 'Default Name',
         email: '',
-        image: '',
-        description: ''
+        image: 'http://www.accountingweb.co.uk/sites/all/modules/custom/sm_pp_user_profile/img/default-user.png',
+        description: 'Default Description'
       }
     }
   )
@@ -186,11 +186,9 @@ const ProfilePage = () => {
           key = {item.id}
           image_url = {item.image_url}
           id = {item.id}
-          ></Post>          
-          
-          ))}         
-
-
+          user_data = {userProfileState}
+          ></Post>                    
+          ))}     
          
         </Grid>
       </Box>

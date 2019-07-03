@@ -40,10 +40,11 @@ const Header = () => {
           </Grid>
          
           <Grid item className={classes.header2} >
-            <Grid container justify="flex-end" >
+            <Grid container justify="flex-end" >              
               <Button href = "/share-music" variant="outlined">Share Music</Button>
               <Button >Discover</Button>
               <Button >Messages</Button>
+              <Button >Logout</Button>
               <Avatar className={classes.avatar}>T</Avatar>
             </Grid>
           </Grid>
