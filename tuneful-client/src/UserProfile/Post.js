@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import Grid from '@material-ui/core/Grid';
 import { makeStyles } from '@material-ui/core/styles';
 import Button from '@material-ui/core/Button';
@@ -8,12 +8,14 @@ import DialogActions from '@material-ui/core/DialogActions';
 import DialogContent from '@material-ui/core/DialogContent';
 import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
-import theme from './instapaper/theme/instapaper/theme';
 import Slide from '@material-ui/core/Slide';
-import { Box } from '@material-ui/core';
+import { Box, Container } from '@material-ui/core';
 import FavoriteIconFilled from '@material-ui/icons/Favorite'
 import FavoriteIconOutlined from '@material-ui/icons/FavoriteBorder'
-import IconButton from '@material-ui/core/IconButton';
+import Typography from '@material-ui/core/Typography'
+import Comment from './Comment'
+import Avatar from '@material-ui/core/Avatar';
+import clsx from 'clsx';
 
 
 const Transition = React.forwardRef(function Transition(props, ref) {
@@ -25,6 +27,18 @@ const Post = (props) => {
     const [music_url, setMusic_URL] = React.useState("")
     const [likesCount, setLikesCount] = React.useState(0)
     const [isLiked, setIsLiked] = React.useState(false)
+    const [userProfileState, setUserProfileState] = useState(
+        {
+            user: {
+                name: '',
+                image: '',
+            }
+        }
+    )
+    const [commentsState, setCommentsState] = useState(
+        ["test1", "test2"]
+    )
+
 
     const useStyles = makeStyles(theme => ({
 
@@ -45,33 +59,64 @@ const Post = (props) => {
             flexDirection: 'column',
             margin: 'auto',
             width: 'fit-content',
-            
+
         },
         root: {
             flexGrow: 1,
         },
+
+        dialogGrid: {
+            display: "flex",
+            justifyContent: "space-around",
+            flexDirection: "row",
+            height: "80%",
+            alignContent: "space-between"
+        },
+
         leftPane: {
             display: "flex",
-            flexDirection :"column",
-            padding: theme.spacing(2)
+            flexDirection: "column",
+            paddingLeft: theme.spacing(2),
+            flexGrow: "1",
+        },
+        rightPane: {
+            display: "flex",
+            flexDirection: "column",
+            flexGrow: "2",
+            paddingRight: theme.spacing(1),
+            width: "50%",
+            flexShrink: "0"
         },
         icon: {
             margin: theme.spacing(1),
             fontSize: 32,
             color: "Red",
-             '&:hover': {               
+            '&:hover': {
                 cursor: "pointer"
             }
-          },
+        },
+        userInfo: {
+            display: "flex",
+            flexDirection: "row",
+        },
+        bigAvatar: {
+            margin: 10,
+            width: 60,
+            height: 60,
+        }
 
     }));
 
+    useEffect(() => {
+        //with Hooks the useEffect repalces the componentDidMount.
+        // This stops the render from running this code eternally
+        // console.log(props.post_data)
 
-    
+    }, []);
+
 
     const classes = useStyles();
 
-    console.log(props.post_data)
 
     const convertMusicURL = (url) => {
         return url.slice(0, 24) + '/embed' + url.slice(24, url.length)
@@ -84,11 +129,54 @@ const Post = (props) => {
     const changeIsLiked = () => {
         setIsLiked(!isLiked)
         console.log("isLiked " + isLiked)
+        if (isLiked === false) {
+            setLikesCount(likesCount + 1)
+        } else {
+            setLikesCount(likesCount - 1)
+        }
     }
 
     function handleClickOpen() {
-        setMusic_URL(convertMusicURL(props.post_data.music_url))
+        // console.log(props.post_data)
+        const author_id = props.post_data.author
+        console.log(author_id)
 
+        //get user data
+        fetch(`http://localhost:8000/api/users/${author_id}`)
+            .then(results => {
+                return results.json()
+            })
+            .then(data => {
+                //console.log(data)
+                // console.log(data.description)
+                let theImage = data.image_url;
+                if (theImage === undefined) {
+                    console.log("using default image")
+                    theImage = "http://www.accountingweb.co.uk/sites/all/modules/custom/sm_pp_user_profile/img/default-user.png"
+                }
+                setUserProfileState({
+                    user: {
+                        name: data.first_name,
+                        image: theImage
+                    }
+                })
+            })
+
+
+        //get the posts comments
+        fetch(`http://localhost:8000/api/comments/posts/${props.post_data.id}`)
+            .then(results => {
+                return results.json()
+            })
+            .then(comments => {
+                console.log(comments)
+                setCommentsState(comments)
+                setTimeout(()=>console.log(commentsState), 3000)
+                //console.log(commentsState)
+            }
+            )
+
+        setMusic_URL(convertMusicURL(props.post_data.music_url))
         setOpen(true);
     }
 
@@ -114,50 +202,90 @@ const Post = (props) => {
                 PaperProps={{
                     style: {
                         height: "80%",
-                        width: "80%"
+                        width: "100%",
+                        maxWidth: "60%"
                     }
                 }}
-            >           
-            
-                    <DialogActions>
+            >
+                <DialogActions>
                     <Button onClick={handleClose} color="primary">
                         Close
                       </Button>
-                     </DialogActions>
-                
-                    <Box className={classes.leftPane}> 
+                </DialogActions>
 
-                    <iframe
-                        src={music_url}
-                        width="300px" height="380px"
-                        frameBorder="0" allowtransparency="true"
-                        allow="encrypted-media"
-                        className="iframe"                                       
-                    >
-                    </iframe>                     
-                 
 
-                    <DialogTitle id="form-dialog-title">{props.post_data.description}</DialogTitle>
-                    <DialogContent>
-                        <DialogContentText>
-                            Listen on Spotify
-                     </DialogContentText>
 
-                    </DialogContent>        
+                <Grid container className={classes.dialogGrid}>
 
-                   <Box>
-                       {isLiked === true &&  <FavoriteIconFilled className = {classes.icon} onClick = {changeIsLiked} />    }
-                       {isLiked === false &&  <FavoriteIconOutlined className = {classes.icon}  onClick = {changeIsLiked}/>     }
-                   
-                    
-                     </Box>
-                        
-                    <DialogContentText>{props.post_data.likes_count} likes</DialogContentText>
-                   
+                    <Grid item className={classes.leftPane}>
+                        <iframe
+                            src={music_url}
+                            width="300px"
+                            height="380px"
+                            frameBorder="0" allowtransparency="true"
+                            allow="encrypted-media"
+                            className="iframe"
+                        >
+                        </iframe>
 
-                    </Box>
-                 
-            </Dialog>            
+
+                        {isLiked === true && <FavoriteIconFilled className={classes.icon} onClick={changeIsLiked} />}
+                        {isLiked === false && <FavoriteIconOutlined className={classes.icon} onClick={changeIsLiked} />}
+
+
+                        <DialogContentText>{likesCount} likes</DialogContentText>
+
+                    </Grid>
+
+
+                    <Grid item className={classes.rightPane}>
+
+                        <Box component="span" display="block" className={classes.userInfo}>
+                            <Avatar alt="VZ" src={userProfileState.user.image} className={classes.bigAvatar} />
+
+
+                            <Typography variant="h6" gutterBottom>
+                                {userProfileState.user.name}
+                            </Typography>
+
+
+                        </Box>
+                        <Typography variant="subtitle1" gutterBottom>
+                            {props.post_data.description}
+                        </Typography>
+
+                        {commentsState.map((item) => (
+                                 <Comment
+                                comment_data={item}
+                                key={item.id}
+                                id={item.id}
+                            ></Comment>
+                        ))}
+
+
+                        <TextField
+                            id="outlined-dense"
+                            label="Add comment"
+                            className={clsx(classes.textField, classes.dense)}
+                            margin="dense"
+                            variant="outlined"
+                            fullWidth
+                            multiline
+                            rowsMax="2"
+                        />
+                        <Button
+                            className={clsx(classes.textField, classes.dense)}
+                            margin="dense"
+                            variant="outlined"
+                        >
+
+                            Post </Button>
+
+                    </Grid>
+                </Grid>
+
+
+            </Dialog>
         </Grid>
 
     )

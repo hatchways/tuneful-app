@@ -11,44 +11,26 @@ import EditProfile from './EditProfile'
 import Header from './Header';
 import user_id from '../Services/get-user-id'
 import Post from './Post'
+import { useCookies, Cookies } from 'react-cookie';
+import params from '../Services/get-spotify-token'
 
 const spotifyWebApi = new Spotify();
 const { Avatar, Typography } = atoms;
 
-/**
- * Obtains parameters from the hash of the URL
- * @return Object
- */
-const getHashParams = () => {
-  var hashParams = {};
-  var e, r = /([^&;=]+)=?([^&;]*)/g,
-    q = window.location.hash.substring(1);
-  // eslint-disable-next-line
-  while (e = r.exec(q)) {
-    hashParams[e[1]] = decodeURIComponent(e[2]);
-  }
-  return hashParams;
-}
-
-const params = getHashParams();
-
-if (params.access_token) {
-  //ACCESS TOKEN
-  spotifyWebApi.setAccessToken(params.access_token)
-
-}
-
 const ProfilePage = () => {
+
+  const cookie_access_token = useCookies()[0].access_token;
+  spotifyWebApi.setAccessToken(cookie_access_token)
 
   const upSm = useMediaQuery(theme.breakpoints.up('sm'), { defaultMatches: true });
   const [userProfileState, setUserProfileState] = useState(
     {
       loggedIn: params.access_token ? true : false,
       user: {
-        name: 'Default Name',
+        name: '',
         email: '',
-        image: 'http://www.accountingweb.co.uk/sites/all/modules/custom/sm_pp_user_profile/img/default-user.png',
-        description: 'Default Description'
+        image: '',
+        description: ''
       }
     }
   )
@@ -60,6 +42,7 @@ const ProfilePage = () => {
   useEffect(() => {
     //with Hooks the useEffect repalces the componentDidMount. This stops the render from running this code eternally
 
+
     //get user data
     fetch(`http://localhost:8000/api/users/${user_id}`)
       .then(results => {
@@ -68,10 +51,18 @@ const ProfilePage = () => {
       .then(data => {
         console.log(data)
         console.log(data.description)
+        //console.log(data.image_url)
+        let theImage = data.image_url;
+        if (theImage === undefined) {
+          console.log("using default image")
+          theImage = "http://www.accountingweb.co.uk/sites/all/modules/custom/sm_pp_user_profile/img/default-user.png"
+        }
         setUserProfileState({
           user: {
             ...userProfileState.user,
-            description: data.description
+            name: data.first_name,
+            description: data.description,
+            image: theImage
           }
         })
       })
@@ -89,39 +80,40 @@ const ProfilePage = () => {
       )
 
     //SPOTIFY CODE
+    // spotifyWebApi.getMe()
+    // .then((response) => {
+    //   console.log(response)
+    //   setUserProfileState({
+    //     user: {
+    //       ...userProfileState.user,
+    //       name: response.display_name,
+    //       email: response.email,
+    //       image: response.images[0].url,
+    //     }
+    //   })
+    // })       
 
-     spotifyWebApi.getMe()
-     .then((response) => {
-       console.log(response)
-       setUserProfileState({
-         user: {
-           ...userProfileState.user,
-           name: response.display_name,
-           email: response.email,
-           image: response.images[0].url,
-         }
-       })
-     })   
   }, []);
 
   useEffect(() => {
 
 
-    try{
-     // console.log(userPostsState)
-      userPostsState.map(item => console.log(item.id))
+    try {
+      // console.log(userPostsState)
+      // userPostsState.map(item => console.log(item.id))
     }
-    catch(e) {
-      console.log("No user posts")
-      setUserPostsState([])
-    } 
+    catch (e) {
+      //  console.log("No user posts")
+      //  setUserPostsState([])
+    }
+
 
   })
 
   const profileChange = (e) => {
     //grabs the data from EditProfile. It's an array, e[0] is the description text, and e[1] is the image file
     console.log('PROFILE CHANGE')
-    console.log(e)   
+    console.log(e)
   }
 
   return (
@@ -136,7 +128,7 @@ const ProfilePage = () => {
                 ultraLarge={upSm}
                 medium={!upSm}
                 style={{ margin: 'auto' }}
-                alt="My profile"
+                alt="Profile Pic"
                 src={userProfileState.user.image}
               />
             </Grid>
@@ -173,19 +165,18 @@ const ProfilePage = () => {
           </Grid>
         </Box>
 
-       <Grid container spacing={4}>
+        <Grid container spacing={4}>
 
-        {userPostsState.map((item) => (
-          
-          <Post
-          post_data = {item}
-          key = {item.id}
-          image_url = {item.image_url}
-          id = {item.id}
-          user_data = {userProfileState}
-          ></Post>                    
-          ))}     
-         
+          {userPostsState.map((item) => (
+
+            <Post
+              post_data={item}
+              key={item.id}
+              image_url={item.image_url}
+              id={item.id}
+            ></Post>
+          ))}
+
         </Grid>
       </Box>
     </React.Fragment>

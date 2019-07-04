@@ -10,6 +10,8 @@ import { makeStyles } from '@material-ui/core/styles';
 import theme from './instapaper/theme/instapaper/theme';
 import Slide from '@material-ui/core/Slide';
 import useForm from "../Services/useForm";
+import Typography from '@material-ui/core/Typography'
+import Box from '@material-ui/core/Box'
 
 const Transition = React.forwardRef(function Transition(props, ref) {
     return <Slide direction="up" ref={ref} {...props} />;
@@ -20,6 +22,7 @@ let data = ["", ""];
 export default function EditProfile(props) {
     const [open, setOpen] = React.useState(false);
     const { values, handleEditProfileSubmit, handleChange } = useForm();    
+    const [photoData, setPhotoData] = React.useState("")
 
     const useStyles = makeStyles({
         editButton: {
@@ -44,8 +47,9 @@ export default function EditProfile(props) {
     }
 
     const handleUploadPhoto = (e) => {
-        //console.log(e.target.files[0])
+        console.log(e.target.files[0])
         data[1] = e.target.files[0]
+        setPhotoData(e.target.files[0].name)
     }
 
     useEffect(() => {
@@ -78,7 +82,7 @@ export default function EditProfile(props) {
                         Please enter a description or upload a new profile picture.
                    </DialogContentText>
                     <TextField
-                        onchange = {handleChange}
+                        onChange = {handleChange}
                         autoFocus
                         value = {values.description}
                         margin="dense"
@@ -101,7 +105,14 @@ export default function EditProfile(props) {
                         <Button variant="outlined" component="span" className={classes.uploadPhotoButton}>
                             Upload Photo
                         </Button>
-                    </label>                 
+                    </label>      
+
+                    <Box component = "span" display="block">
+                        <Typography variant = "caption">
+                            {photoData}
+                        </Typography>
+                    </Box>
+                
                    
                 </DialogContent>
                 <DialogActions>
