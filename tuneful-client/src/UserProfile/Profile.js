@@ -38,7 +38,6 @@ const ProfilePage = () => {
     ["test1", "test2"]
   )
 
-
   useEffect(() => {
     //with Hooks the useEffect repalces the componentDidMount. This stops the render from running this code eternally
 

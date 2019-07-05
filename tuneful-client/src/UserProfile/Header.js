@@ -38,9 +38,9 @@ const Header = () => {
       }
     }
   )
+  
   const { handleLogoutClick, handleProfileClick } = useForm();
   const classes = useStyles()
-
 
   useEffect(() => {
 
