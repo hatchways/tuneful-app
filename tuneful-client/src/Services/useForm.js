@@ -66,8 +66,13 @@ const useForm = (callback) => {
     .catch(res => {
       console.log(res.error)
     })
-
     history.push('/profile')
+}
+
+const handleCommentPost = (event) => {
+  event.preventDefault();
+  const comment = event.target
+
 
 }
 

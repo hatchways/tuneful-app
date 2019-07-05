@@ -16,7 +16,8 @@ import Typography from '@material-ui/core/Typography'
 import Comment from './Comment'
 import Avatar from '@material-ui/core/Avatar';
 import clsx from 'clsx';
-
+import config from '../config'
+import user_id from '../Services/get-user-id'
 
 const Transition = React.forwardRef(function Transition(props, ref) {
     return <Slide direction="up" ref={ref} {...props} />;
@@ -38,6 +39,7 @@ const Post = (props) => {
     const [commentsState, setCommentsState] = useState(
         ["test1", "test2"]
     )
+    const [postCommentState, setPostCommentState] = useState();
 
 
     const useStyles = makeStyles(theme => ({
@@ -84,6 +86,7 @@ const Post = (props) => {
             flexDirection: "column",
             flexGrow: "2",
             paddingRight: theme.spacing(1),
+            paddingLeft: theme.spacing(1),
             width: "50%",
             flexShrink: "0"
         },
@@ -116,7 +119,6 @@ const Post = (props) => {
 
 
     const classes = useStyles();
-
 
     const convertMusicURL = (url) => {
         return url.slice(0, 24) + '/embed' + url.slice(24, url.length)
@@ -182,6 +184,53 @@ const Post = (props) => {
 
     function handleClose() {
         setOpen(false);
+    }
+
+    const postComment = () => {
+        console.log(postCommentState)
+
+        const author_id = props.post_data.author
+        console.log(author_id)
+        const description = postCommentState
+
+        const posts_id = props.post_data.id       
+
+        var today = new Date();
+        var dd = String(today.getDate()).padStart(2, '0');
+        var mm = String(today.getMonth() + 1).padStart(2, '0'); //January is 0!
+        var yyyy = today.getFullYear();
+        var hours = today.getHours()
+        var min = today.getMinutes();
+        var sec = today.getSeconds()
+
+        //today = yyyy + '-' + mm + '-' + dd + " " + hours + ":" + min + ":" + sec;
+        today = `${yyyy}-${mm}-${dd} ${hours}:${min}:${sec}`
+
+        console.log("adding comment on: " + today)
+        const date_commented = today
+
+       // console.log(date_commented)       
+        //must format date
+
+        //PUT comment to database
+        fetch('http://localhost:8000/api/comments', {
+            method: 'POST',
+            headers: {
+              'content-type': 'application/json',
+            },
+            body: JSON.stringify({ description,posts_id,user_id,date_commented }),
+          })
+            .then(res =>
+              (!res.ok)
+                ? res.json().then(e => Promise.reject(e))
+                : res.json()
+            )
+
+    }
+   
+    const handleChange = (e) => {
+       // console.log(e.target.value)
+        setPostCommentState(e.target.value)
     }
 
     return (
@@ -261,7 +310,7 @@ const Post = (props) => {
                                 id={item.id}
                             ></Comment>
                         ))}
-
+                        
 
                         <TextField
                             id="outlined-dense"
@@ -272,14 +321,14 @@ const Post = (props) => {
                             fullWidth
                             multiline
                             rowsMax="2"
+                            onChange = {handleChange}
                         />
                         <Button
                             className={clsx(classes.textField, classes.dense)}
                             margin="dense"
                             variant="outlined"
-                        >
-
-                            Post </Button>
+                            onClick = {postComment}
+                        > Post </Button>
 
                     </Grid>
                 </Grid>
