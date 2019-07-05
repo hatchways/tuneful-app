@@ -8,7 +8,7 @@ import LibraryMusic from '@material-ui/icons/LibraryMusic';
 import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
 import Image from '../Media/home-screen.jpg';
-import useForm from "../CustomHooks/useForm";
+import useForm from "../Services/useForm";
 import Divider from '@material-ui/core/Divider';
 import {Link} from 'react-router-dom';
 import TextField from '@material-ui/core/TextField';
@@ -48,7 +48,7 @@ const useStyles = makeStyles(theme => ({
 export default function RegistrationForm() {
     const classes = useStyles();
   
-    const { values, handleChange, handleSubmit } = useForm();
+    const { values, handleChange, handleSubmit,error } = useForm();
 
   return (
     <Grid container component="main" className={classes.root}>
@@ -62,8 +62,12 @@ export default function RegistrationForm() {
           <Typography component="h1" variant="h5">
             Tuneful
           </Typography>
+
         <form onSubmit={handleSubmit} className={classes.form} onError={errors => console.log(errors)} noValidate>
           <Divider variant = "middle" component = "hr" /> 
+          <div role='alert'>
+          {error && <p className='red'>{error}</p>}
+        </div>
           <Grid container spacing={2}>
             <Grid item xs={12} sm={6}>
               <TextField 
@@ -78,8 +82,6 @@ export default function RegistrationForm() {
                 label="First Name"
                 style = {{marginTop: '30px'}}
                 autoFocus
-                validators={['required']}
-                errormessages={['This field is required']}
               />
             </Grid>
             <Grid item xs={12} sm={6}>
@@ -94,8 +96,6 @@ export default function RegistrationForm() {
                 name="last_name"
                 style = {{marginTop: '30px'}}
                 autoComplete="lname"
-                validators={['required']}
-                errormessages={['This field is required']}
               />
               </Grid>
             <Grid item xs={12}>
@@ -109,8 +109,6 @@ export default function RegistrationForm() {
                 label="Email Address"
                 name="email"
                 autoComplete="email"
-                validators={['required', 'isEmail']}
-                errormessages={['This field is required', 'Email is not valid']}
               />
               </Grid>
             <Grid item xs={12}>
@@ -125,8 +123,6 @@ export default function RegistrationForm() {
                 type="password"
                 id="password"
                 autoComplete="current-password"
-                validators={['required']}
-                errormessages={['this field is required']}
               />
             </Grid>
        

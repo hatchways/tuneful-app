@@ -8,5 +8,6 @@ CREATE TABLE user_accounts (
   password VARCHAR NOT NULL,
   refresh_token VARCHAR,
   description VARCHAR,
+  image_url VARCHAR,
   date_created TIMESTAMP NOT NULL DEFAULT now()
 );

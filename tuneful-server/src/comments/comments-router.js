@@ -103,4 +103,17 @@ commentsRouter
       .catch(next)
   })
 
+  commentsRouter
+  .route('/posts/:posts_id')
+  .get((req, res, next) => {
+    CommentsService.getByPosts(
+      req.app.get('db'),
+      req.params.posts_id
+    ).then(comments => {
+      res.json(comments.map(serializeComment))
+    })
+      .catch(next)
+  })
+
+
 module.exports = commentsRouter

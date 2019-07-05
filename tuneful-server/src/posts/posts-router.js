@@ -10,8 +10,8 @@ const serializePosts = post => ({
   description: xss(post.description),
   date_published: post.date_published,
   author: xss(post.author),
-  image_url:xss(post.image_url),
-  music_url:xss(post.music_url),
+  image_url: xss(post.image_url),
+  music_url: xss(post.music_url),
   comment_count: post.comment_count,
   likes_count: post.likes_count
 })
@@ -28,7 +28,7 @@ PostsRouter
   })
   .post(jsonParser, (req, res, next) => {
     const { description, author, image_url, music_url } = req.body
-    const newPost = { description, author, image_url, music_url}
+    const newPost = { description, author, image_url, music_url }
 
     for (const [key, value] of Object.entries(newPost))
       if (value == null)
@@ -73,12 +73,26 @@ PostsRouter
   .delete((req, res, next) => {
     PostsService.deletePost(
       req.app.get('db'),
-      req.params.post_id
+      req.params.author
     )
       .then(numRowsAffected => {
         res.status(204).end()
       })
       .catch(next)
   })
+
+PostsRouter
+  .route('/author/:author')
+  .get((req, res, next) => {
+    PostsService.getByAuthor(
+      req.app.get('db'),
+      req.params.author
+    ).then(posts => {
+      res.json(posts.map(serializePosts))
+    })
+      .catch(next)
+  })
+
+
 
 module.exports = PostsRouter

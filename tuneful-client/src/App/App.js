@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import { Route, Switch } from 'react-router-dom'
 import PrivateRoute from '../Utils/PrivateRoute'
-import PublicOnlyRoute from '../Utils/PublicRoute'
 import RegistrationForm from '../RegistrationForm/RegistrationForm';
 import LoginForm from '../LoginForm/loginForm';
 import Profile from '../UserProfile/Profile';
@@ -16,8 +15,12 @@ export default class App extends Component{
       <Route exact path = '/' component = {LoginForm} />
       <Route path = '/register' component = {RegistrationForm} />
       <Route path = '/success' component = {SuccessSignUp}/>
-      <Route path = '/profile' component = {Profile} />
+      <PrivateRoute path = '/profile' component = {Profile} />
       <PrivateRoute path = '/share-music' component = {SearchBar}/>
+      <Route path = '/spotify-login' component={() => { 
+     window.location.href = 'http://localhost:8000/api/spotify-login'; 
+     return null;
+}}/>
       </Switch>
       </main>
     )
