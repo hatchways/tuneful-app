@@ -73,7 +73,6 @@ const handleCommentPost = (event) => {
   event.preventDefault();
   const comment = event.target
 
-
 }
 
   const handleChange = (event) => {
@@ -86,6 +85,9 @@ const handleCommentPost = (event) => {
     history.push('/profile')
   };
 
+  const handleProfileClick = ()=>{       
+    history.push('/profile')
+  };
 
   return {
     handleChange,
@@ -93,6 +95,7 @@ const handleCommentPost = (event) => {
     handleSubmitJwtAuth,
     handleEditProfileSubmit,
     handleLogoutClick,
+    handleProfileClick,
     values,
     error,
   }

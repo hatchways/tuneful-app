@@ -36,6 +36,7 @@ const Post = (props) => {
             }
         }
     )
+    
     const [commentsState, setCommentsState] = useState(
         ["test1", "test2"]
     )
