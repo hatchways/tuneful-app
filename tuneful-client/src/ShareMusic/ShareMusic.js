@@ -14,10 +14,13 @@ import Typography from '@material-ui/core/Typography'
 import Paper from '@material-ui/core/Paper';
 import { makeStyles } from '@material-ui/core/styles';
 import { Button } from '@material-ui/core';
-
+import Avatar from '@material-ui/core/Avatar';
+import TextField from '@material-ui/core/TextField';
+import ChangeSong from './ChangeSong'
 
 const useStyles = makeStyles(theme => ({
-  root: {
+
+  addDesc: {
     padding: theme.spacing(3, 2),
   },
   postImg: {
@@ -29,8 +32,10 @@ const useStyles = makeStyles(theme => ({
   },
   leftPane: {
     display: "flex",
-    flexDirection :"column",   
-  }
+    flexDirection: "column",
+    justifyContent: "space-between"
+  },
+ 
 }));
 const spotifyWebApi = new Spotify();
 
@@ -45,38 +50,36 @@ const ShareMusic = () => {
     <React.Fragment>
       <CssBaseline />
       <Header />
-      <Box component="main" maxWidth={935} margin="auto" padding="60px 20px 0">
-        <Grid container spacing={3}>
+      <Box component="main" maxWidth={935} margin="auto" padding="60px 20px 20px">
+        <Grid container spacing={3} >
 
           <Grid item xs={12}>
-            <Typography variant="h4">
+            <Typography variant="h4" >
               Share your music
               </Typography>
           </Grid>
 
           <Grid item xs={6} className={classes.leftPane}>
 
-            <Grid item  >
-              <Paper className={classes.root}>
-                <Typography variant="h6" component="h3">
-                  This is a sheet of paper.
-                    </Typography>
-                <Typography component="p">
-                  Paper can be used to build surface or other elements for your application.
-                    </Typography>
-              </Paper>
+              {/* add change song*/}
+             <ChangeSong/>                 
 
-            </Grid>
-
-
-            <Grid item  >
-              <Paper className={classes.root}>
-                <Typography variant="h6" component="h3">
-                  This is a sheet of paper.
+            <Grid item component='span'>
+              <Typography component='span' variant="h6" style={{ marginBottom: theme.spacing(2) }} >
+                Add description:
                     </Typography>
-                <Typography component="p">
-                  Paper can be used to build surface or other elements for your application.
-                    </Typography>
+
+              <Paper className={classes.addDesc}>
+                <Typography component={'span'}>
+                  <TextField                   
+                  placeholder="Write a caption..."
+                    fullWidth
+                    multiline={true}
+                    rows={4}
+                    rowsMax={4}                 
+                  >
+                  </TextField>
+                </Typography>
               </Paper>
             </Grid>
 
@@ -87,13 +90,11 @@ const ShareMusic = () => {
             <img
               alt="post"
               src="http://img2-ak.lst.fm/i/u/ar0/f3668f68387d4336c3a797a66196f851"
-              className={classes.postImg}              
+              className={classes.postImg}
             />
           </Grid>
 
-
           <Grid item xs={12} >
-
 
             <Button
               type="submit"

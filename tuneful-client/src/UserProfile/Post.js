@@ -310,8 +310,7 @@ const Post = (props) => {
                                 key={item.id}
                                 id={item.id}
                             ></Comment>
-                        ))}
-                        
+                        ))}                        
 
                         <TextField
                             id="outlined-dense"
@@ -333,7 +332,6 @@ const Post = (props) => {
 
                     </Grid>
                 </Grid>
-
 
             </Dialog>
         </Grid>
