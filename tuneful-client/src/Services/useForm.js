@@ -23,13 +23,11 @@ const useForm = (callback) => {
           last_name.value = ''
           email.value = ''
           password.value = ''
+          history.push('/success')
         })
         .catch(res => {
           console.log(res.error)
-          error(res.error)
-
         })
-        history.push('/success')
   };
 
 
@@ -58,7 +56,6 @@ const useForm = (callback) => {
  const handleEditProfileSubmit = (event) => {
   event.preventDefault();
   const {description,image_url} = event.target
-  
 
   editProfileService.updateUser({
     description:description.value,
@@ -69,8 +66,12 @@ const useForm = (callback) => {
     .catch(res => {
       console.log(res.error)
     })
-
     history.push('/profile')
+}
+
+const handleCommentPost = (event) => {
+  event.preventDefault();
+  const comment = event.target
 
 }
 
@@ -79,11 +80,22 @@ const useForm = (callback) => {
     setValues(values => ({ ...values, [event.target.id]: event.target.value }));
   };
 
+  const handleLogoutClick = ()=>{
+    TokenService.clearAuthToken();
+    history.push('/profile')
+  };
+
+  const handleProfileClick = ()=>{       
+    history.push('/profile')
+  };
+
   return {
     handleChange,
     handleSubmit,
     handleSubmitJwtAuth,
     handleEditProfileSubmit,
+    handleLogoutClick,
+    handleProfileClick,
     values,
     error,
   }

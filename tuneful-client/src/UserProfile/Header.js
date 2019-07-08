@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import AppBar from '@material-ui/core/AppBar';
 import Grid from '@material-ui/core/Grid';
 import atoms from './instapaper/components/atoms';
@@ -7,6 +7,8 @@ import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
 import Button from '@material-ui/core/Button';
 import Avatar from '@material-ui/core/Avatar';
+import useForm from '../Services/useForm'
+import user_id from '../Services/get-user-id'
 
 const { Divider, Toolbar } = atoms;
 
@@ -15,6 +17,9 @@ const { Divider, Toolbar } = atoms;
 
 const useStyles = makeStyles(theme => ({
   avatar: {
+    '&:hover': {
+      cursor: "pointer"
+    }
   },
   header1: {
     height: "auto"
@@ -24,9 +29,46 @@ const useStyles = makeStyles(theme => ({
   }
 }));
 
-
 const Header = () => {
+
+  const [userProfileState, setUserProfileState] = useState(
+    {
+      user: {
+        image: '',
+      }
+    }
+  )
+  const { handleLogoutClick, handleProfileClick } = useForm();
   const classes = useStyles()
+
+
+  useEffect(() => {
+
+    //get user data
+    fetch(`http://localhost:8000/api/users/${user_id}`)
+      .then(results => {
+        return results.json()
+      })
+      .then(data => {
+        console.log(data)
+        console.log(data.description)
+        //console.log(data.image_url)
+        let theImage = data.image_url;
+        if (theImage === undefined) {
+          console.log("using default image")
+          theImage = "http://www.accountingweb.co.uk/sites/all/modules/custom/sm_pp_user_profile/img/default-user.png"
+        }
+        setUserProfileState({
+          user: {
+            ...userProfileState.user,
+            image: theImage
+          }
+        })
+      })
+
+  }, []);
+
+
   return (
     <AppBar className={classes.header1} position="sticky" color="default" elevation={0}>
       <Toolbar narrow>
@@ -38,13 +80,17 @@ const Header = () => {
               <Typography variant="h5" >Tuneful</Typography>
             </Grid>
           </Grid>
-         
+
           <Grid item className={classes.header2} >
             <Grid container justify="flex-end" >
-              <Button href = "/share-music" variant="outlined">Share Music</Button>
+              <Button href="/share-music" variant="outlined">Share Music</Button>
               <Button >Discover</Button>
               <Button >Messages</Button>
-              <Avatar className={classes.avatar}>T</Avatar>
+              <Button onClick={handleLogoutClick}>Logout</Button>
+              <Avatar alt="VZ"
+                src={userProfileState.user.image}
+                className={classes.avatar} onClick = {handleProfileClick}>             
+              </Avatar>
             </Grid>
           </Grid>
         </Grid>
