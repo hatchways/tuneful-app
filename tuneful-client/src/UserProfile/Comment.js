@@ -11,7 +11,7 @@ import Grid from '@material-ui/core/Grid';
 import Box from '@material-ui/core/Box'
 
 
-const Comments = (props) => {
+const Comment = (props) => {
     const useStyles = makeStyles(theme => ({
         root: {
             maxWidth: "100%",
@@ -107,4 +107,4 @@ const Comments = (props) => {
     )
 }
 
-export default Comments;
+export default Comment;

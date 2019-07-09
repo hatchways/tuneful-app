@@ -213,7 +213,7 @@ const Post = (props) => {
        // console.log(date_commented)       
         //must format date
 
-        //PUT comment to database
+        //POST comment to database
         fetch('http://localhost:8000/api/comments', {
             method: 'POST',
             headers: {

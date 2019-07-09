@@ -29,10 +29,6 @@ const ChangeSong = (props) => {
     const [open, setOpen] = React.useState(false);
     const [songsState, setSongsState] = React.useState([
 
-        { name: "Goodnight Song", artist: "Tears For Fears", album: "Elemental", id: "1" },
-        { name: "All You Need is Love", artist: "The Beatles", album: "Magical Mystery Tour", id: "2" },
-        { name: "Gimmie Ree", artist: "The Tendies", album: "Happiness", id: "3" },
-
     ])
 
     const cookie_access_token = useCookies()[0].access_token;
@@ -57,6 +53,7 @@ const ChangeSong = (props) => {
             paddingRight: theme.spacing(2)
         },
         changeSongDialog: {
+
             display: "flex",
             flexDirection: "row",
             marginLeft: "auto",
@@ -68,7 +65,25 @@ const ChangeSong = (props) => {
             padding: "5px",
             display: "flex",
             flexDirection: "column"
-        }
+        },
+        songImage: {
+            width: "60%",
+            '&:hover': {
+                cursor: "default"
+            },
+        },
+        songItemsPaper: {
+            display: "flex",
+            flexDirection: "row",
+            padding: "5px",
+            justifyContent: "space-between",
+            margin: "5px",
+            alignItems: "center",
+            '&:hover': {
+                cursor: "pointer"
+            },
+        },
+
 
     }));
 
@@ -82,9 +97,8 @@ const ChangeSong = (props) => {
 
     const classes = useStyles();
 
-
     const handleClickOpen = () => {
-
+        setSongsState([])
         console.log(cookie_access_token)
         setOpen(true);
     }
@@ -93,7 +107,19 @@ const ChangeSong = (props) => {
         setOpen(false);
     }
 
-    const postComment = () => {
+    const getSongData = (e) => {
+        // console.log(e)
+        props.changeSong(e)
+        setOpen(false);
+    }
+
+    const readSongName = () => {
+        //console.log(songsState.name)
+        if (props.selectedSongState.name === "" || props.selectedSongState.name === undefined) {
+            return ("Select a song")
+        } else {
+            return (props.selectedSongState.name)
+        }
     }
 
     const debounce = (fn, time) => {
@@ -110,38 +136,49 @@ const ChangeSong = (props) => {
     const handleChange = debounce((e) => {
         console.log(e)
 
+        let arr = []
+
         let inputString = e
         if (inputString !== "") {
             spotifyWebApi.searchTracks(inputString)
                 .then((response) => {
-                    console.log(response.tracks.items[0])
+                    //  console.log(response.tracks)
                     // console.log(response.tracks.items[0].artists[0].name)
                     // console.log(response.tracks.items[0].name)
                     // console.log(response.tracks.items[0].id)
                     // console.log(response.tracks.items[0].album.images[0].url)
                     // console.log(response.tracks.items[0].external_urls.spotify)
 
-                    setSongsState(
-                        [...songsState,
-                            {
-                                artist: response.tracks.items[0].artists[0].name,
-                                name: response.tracks.items[0].name,
-                                id: response.tracks.items[0].id,
-                                image: response.tracks.items[0].album.images[0].url,
-                                url: response.tracks.items[0].external_urls.spotify,
-                                album: response.tracks.items[0].album.name
-                            }
-                        ]
-                    )})
+                    //  console.log(arr)
+                    for (let i = 0; i < 10; i++) {
+
+                        if (response.tracks.items[i] === undefined) {
+                            continue;
+                        }
+
+                        arr[i] = {
+                            artist: response.tracks.items[i].artists[0].name,
+                            name: response.tracks.items[i].name,
+                            id: response.tracks.items[i].id,
+                            image: response.tracks.items[i].album.images[0].url,
+                            url: response.tracks.items[i].external_urls.spotify,
+                            album: response.tracks.items[i].album.name,
+                            key: response.tracks.items[i].id
+                        }
+                    }
+
+                    console.log(arr)
+                    setSongsState(arr)
+
+                })
         }
-
-
-    }, 1000)
+    }, 500)
 
     return (
 
         <Grid container  >
             <Paper className={classes.changeSong}
+                style={{ width: "100%" }}
             >
                 <Avatar
                     alt="Spotify Logo"
@@ -153,16 +190,32 @@ const ChangeSong = (props) => {
                         display: "flex",
                         flexDirection: "column",
                         paddingLeft: theme.spacing(2),
-                        paddingRight: theme.spacing(2)
+                        paddingRight: theme.spacing(2),
+
                     }}>
 
-                    <Typography variant="h6" component="h3" >
-                        Head Over Heels
-                     </Typography>
-                    <Typography >
-                        Tears For Fears - Songs From The Big Chair
-                    </Typography>
+                    <Grid item>
+                        <Typography variant="h6" component="h3" >
+                            {readSongName()}
+                        </Typography>
+
+                    </Grid>
+
+                    <Grid item>
+                        <Typography >
+                            {props.selectedSongState.artist}
+                        </Typography>
+
+                    </Grid>
+
+                    <Grid item>
+                        <Typography >
+                            {props.selectedSongState.album}
+                        </Typography>
+
+                    </Grid>
                 </Grid>
+
 
                 <Typography color="primary"
                     onClick={handleClickOpen}
@@ -176,12 +229,13 @@ const ChangeSong = (props) => {
                     open={open}
                     onClose={handleClose}
                     aria-labelledby="form-dialog-title"
-                    className={classes.dialog}
+
                     PaperProps={{
                         style: {
                             height: "80%",
                             width: "100%",
-                            maxWidth: "60%"
+                            maxWidth: "60%",
+                            background: "#ecebe8"
                         }
                     }}
                 >
@@ -203,34 +257,48 @@ const ChangeSong = (props) => {
                             </Grid>
                         </Grid>
 
-                        <Grid item xs={12} >
+                        <Grid item xs={12} className={classes.songItem} >
 
                             {/* Add search algorithm */}
 
                             {songsState.map((item) => (
-                                <Grid item xs={6}
-                                    className={classes.songItem}
+                                <Grid item xs={12}
                                     key={item.id}
+                                    className={classes.songItemsGrid}
+                                    onClick={() => { getSongData(item) }}
                                 >
-                                    <Paper>
-                                        <Grid >
-                                            <Typography variant="h6">
-                                                {item.name}
-                                            </Typography>
+                                    <Paper className={classes.songItemsPaper} >
+                                        <Grid item xs={6} style={{ display: "flex", flexDirection: "column" }}>
+                                            <Grid >
+                                                <Typography variant="subtitle2" style={{ fontSize: "1rem" }}>
+                                                    {item.name}
+                                                </Typography>
 
+                                            </Grid>
+                                            <Grid >
+                                                <Typography variant="subtitle2">
+                                                    {item.artist}
+                                                </Typography>
+
+                                            </Grid>
+                                            <Grid >
+                                                <Typography variant="body2">
+                                                    {item.album}
+                                                </Typography>
+                                            </Grid>
                                         </Grid>
-                                        <Grid >
-                                            <Typography variant="subtitle2">
-                                                {item.artist}
-                                            </Typography>
 
 
-                                        </Grid>
-                                        <Grid >
-                                            <Typography variant="body2">
-                                                {item.album}
-                                            </Typography>
+                                        <Grid item xs={6}>
+                                            <Grid container style={{ justifyContent: "center" }}>
 
+                                                <img
+                                                    alt="song image"
+                                                    src={item.image}
+                                                    className={classes.songImage}
+                                                />
+
+                                            </Grid>
                                         </Grid>
 
                                     </Paper>

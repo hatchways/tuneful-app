@@ -119,7 +119,7 @@ const ProfilePage = () => {
     <React.Fragment>
       <CssBaseline />
       <Header />
-      <Box component="main" maxWidth={935} margin="auto" padding="60px 20px 0">
+      <Box component="main" maxWidth={935} margin="auto" padding="60px 20px 30px">
         <Box mb="44px">
           <Grid container>
             <Grid item xs={4}>
