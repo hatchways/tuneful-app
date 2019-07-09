@@ -61,13 +61,14 @@ export default function EditProfile(props) {
     })
 
     return (
-        <div>
+        <Box>
             <Button
              className={classes.editButton} 
              variant="outlined" 
              onClick={handleClickOpen}>
                 Edit Profile
               </Button>
+              
             <Dialog TransitionComponent={Transition}
                 open={open}
                 onClose={handleClose}
@@ -125,6 +126,6 @@ export default function EditProfile(props) {
                 </DialogActions>
                 </form>
             </Dialog>
-        </div>
+        </Box>
     );
 }

@@ -15,7 +15,6 @@ const cookieParser = require('cookie-parser');
 const request = require('request'); // "Request" library
 const bodyParser = require('body-parser')
 
-
 const app = express()
 
 const morganOption = (NODE_ENV === 'production')

@@ -38,9 +38,9 @@ const Header = () => {
       }
     }
   )
+  
   const { handleLogoutClick, handleProfileClick } = useForm();
   const classes = useStyles()
-
 
   useEffect(() => {
 
@@ -51,11 +51,11 @@ const Header = () => {
       })
       .then(data => {
         console.log(data)
-        console.log(data.description)
+       // console.log(data.description)
         //console.log(data.image_url)
         let theImage = data.image_url;
         if (theImage === undefined) {
-          console.log("using default image")
+         // console.log("using default image")
           theImage = "http://www.accountingweb.co.uk/sites/all/modules/custom/sm_pp_user_profile/img/default-user.png"
         }
         setUserProfileState({
@@ -97,12 +97,9 @@ const Header = () => {
       </Toolbar>
     </AppBar>
   )
-
 }
 
 
-
 export default Header;
-
 
 // <img alt="label" className="image__instagram-label" src={label} />   
