@@ -1,20 +1,17 @@
 import React, { useState, useEffect } from 'react';
 import Grid from '@material-ui/core/Grid';
 import CssBaseline from '@material-ui/core/CssBaseline';
-import useMediaQuery from '@material-ui/core/useMediaQuery';
 import theme from '../UserProfile/instapaper/theme/instapaper/theme';
 import withTheme from '../UserProfile/instapaper/pages/instapaper/withTheme';
 import Box from '@material-ui/core/Box';
-import { useCookies, Cookies } from 'react-cookie';
+import { useCookies } from 'react-cookie';
 import Spotify from 'spotify-web-api-js';
 import Header from '../UserProfile/Header';
 import user_id from '../Services/get-user-id'
-import params from '../Services/get-spotify-token'
 import Typography from '@material-ui/core/Typography'
 import Paper from '@material-ui/core/Paper';
-import { makeStyles, emphasize } from '@material-ui/core/styles';
+import { makeStyles } from '@material-ui/core/styles';
 import { Button } from '@material-ui/core';
-import Avatar from '@material-ui/core/Avatar';
 import TextField from '@material-ui/core/TextField';
 import ChangeSong from './ChangeSong'
 import useForm from '../Services/useForm'
@@ -82,16 +79,21 @@ const ShareMusic = () => {
 
     //description, author, image_url, music_url 
 
-    const description = selectedSongState.desc
+    let description = selectedSongState.desc
     const author = user_id
     const image_url = selectedSongState.image
     const music_url = selectedSongState.url
 
-    if (description == "" || author == "" || image_url == "" || music_url == ""){
+    if (description === undefined) {
+      description = ""
+    }    
+
+    console.log(`${description}  ${author}  ${image_url}  ${music_url}`)
+
+    if (author == "" || image_url == "" || music_url == ""){
 
     }
     else{
-
       //POST Post to database
       fetch('http://localhost:8000/api/posts', {
         method: 'POST',
@@ -114,7 +116,7 @@ const ShareMusic = () => {
     <React.Fragment>
       <CssBaseline />
       <Header />
-      <Box component="main" maxWidth={935} margin="auto" padding="60px 20px 20px">
+      <Box component="main" maxWidth={935} margin="auto" padding="40px 20px 20px">
         <Grid container spacing={3} >
 
           <Grid item xs={12}>
