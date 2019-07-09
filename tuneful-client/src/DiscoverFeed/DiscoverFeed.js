@@ -95,14 +95,13 @@ const DiscoverFeed = () => {
 
                 <Grid container spacing={4} className={classes.postsGrid}>
 
-                    {postsState.map((item) => (
+                    {postsState.reverse().map((item) => (
                         <Post
                             post_data={item}
                             key={item.date_published}
                             image_url={item.image_url}
                             id={item.id}
                         ></Post>
-
                     ))}
 
                 </Grid>

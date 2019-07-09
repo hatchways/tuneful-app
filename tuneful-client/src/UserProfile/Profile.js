@@ -166,7 +166,7 @@ const ProfilePage = () => {
 
         <Grid container spacing={4}>
 
-          {userPostsState.map((item) => (
+          {userPostsState.reverse().map((item) => (
             <Post
               post_data={item}
               key={item.id}

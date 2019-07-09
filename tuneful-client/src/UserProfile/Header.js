@@ -25,7 +25,8 @@ const useStyles = makeStyles(theme => ({
     height: "auto"
   },
   header2: {
-    marginRight: theme.spacing(2)
+    marginRight: theme.spacing(2),
+    width: "50%",
   }
 }));
 
@@ -73,7 +74,7 @@ const Header = () => {
     <AppBar className={classes.header1} position="sticky" color="default" elevation={0}>
       <Toolbar narrow>
         <Grid container alignItems="center">
-          <Grid item xs>
+          <Grid item xs style ={{maxWidth : "50%"}}>
             <Grid container alignItems="center" >
               <LibraryMusic />
               <Divider vertical />
@@ -82,7 +83,7 @@ const Header = () => {
           </Grid>
 
           <Grid item className={classes.header2} >
-            <Grid container justify="flex-end" >
+            <Grid container justify="space-between" >
               <Button href="/share-music" variant="outlined">Share Music</Button>
               <Button  href="/discover" >Discover</Button>
               <Button >Messages</Button>
