@@ -34,7 +34,7 @@ const ChangeSong = (props) => {
         { name: "Gimmie Ree", artist: "The Tendies", album: "Happiness", id: "3" },
 
     ])
-   
+
     const cookie_access_token = useCookies()[0].access_token;
     spotifyWebApi.setAccessToken(cookie_access_token)
 
@@ -75,8 +75,8 @@ const ChangeSong = (props) => {
     useEffect(() => {
         //with Hooks the useEffect repalces the componentDidMount.
         // This stops the render from running this code eternally
-        
-        
+
+
     }, []);
 
 
@@ -108,7 +108,7 @@ const ChangeSong = (props) => {
     }
 
     const handleChange = debounce((e) => {
-        console.log(e) 
+        console.log(e)
 
         let inputString = e
         if (inputString !== "") {
@@ -120,21 +120,21 @@ const ChangeSong = (props) => {
                     // console.log(response.tracks.items[0].id)
                     // console.log(response.tracks.items[0].album.images[0].url)
                     // console.log(response.tracks.items[0].external_urls.spotify)
-                    
-                    setSongsState(...songsState, 
-                        {
-                            artist: response.tracks.items[0].artists[0].name,
-                            name: response.tracks.items[0].name,
-                            id: response.tracks.items[0].id,
-                            image: response.tracks.items[0].album.images[0].url,
-                            url: response.tracks.items[0].external_urls.spotify,
-                            album: response.tracks.items[0].album.name
-                        }
-                    )
-                    console.log (songsState)
-                })
+
+                    setSongsState(
+                        [...songsState,
+                            {
+                                artist: response.tracks.items[0].artists[0].name,
+                                name: response.tracks.items[0].name,
+                                id: response.tracks.items[0].id,
+                                image: response.tracks.items[0].album.images[0].url,
+                                url: response.tracks.items[0].external_urls.spotify,
+                                album: response.tracks.items[0].album.name
+                            }
+                        ]
+                    )})
         }
-    
+
 
     }, 1000)
 
@@ -204,7 +204,7 @@ const ChangeSong = (props) => {
                         </Grid>
 
                         <Grid item xs={12} >
-                            
+
                             {/* Add search algorithm */}
 
                             {songsState.map((item) => (
@@ -214,23 +214,23 @@ const ChangeSong = (props) => {
                                 >
                                     <Paper>
                                         <Grid >
-                                            <Typography variant = "h6">
-                                            {item.name}
-                                            </Typography>
-                                          
-                                        </Grid>
-                                        <Grid >
-                                        <Typography variant = "subtitle2">
-                                          {item.artist}
+                                            <Typography variant="h6">
+                                                {item.name}
                                             </Typography>
 
-                                           
                                         </Grid>
                                         <Grid >
-                                        <Typography variant = "body2">
-                                        {item.album}
+                                            <Typography variant="subtitle2">
+                                                {item.artist}
                                             </Typography>
-                                          
+
+
+                                        </Grid>
+                                        <Grid >
+                                            <Typography variant="body2">
+                                                {item.album}
+                                            </Typography>
+
                                         </Grid>
 
                                     </Paper>
