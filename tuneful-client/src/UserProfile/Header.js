@@ -84,7 +84,7 @@ const Header = () => {
           <Grid item className={classes.header2} >
             <Grid container justify="flex-end" >
               <Button href="/share-music" variant="outlined">Share Music</Button>
-              <Button >Discover</Button>
+              <Button  href="/discover" >Discover</Button>
               <Button >Messages</Button>
               <Button onClick={handleLogoutClick}>Logout</Button>
               <Avatar alt="VZ"

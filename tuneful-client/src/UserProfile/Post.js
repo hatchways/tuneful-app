@@ -293,11 +293,9 @@ const Post = (props) => {
                         <Box component="span" display="block" className={classes.userInfo}>
                             <Avatar alt="VZ" src={userProfileState.user.image} className={classes.bigAvatar} />
 
-
                             <Typography variant="h6" gutterBottom>
                                 {userProfileState.user.name}
                             </Typography>
-
 
                         </Box>
                         <Typography variant="subtitle1" gutterBottom>
@@ -307,7 +305,7 @@ const Post = (props) => {
                         {commentsState.map((item) => (
                                  <Comment
                                 comment_data={item}
-                                key={item.id}
+                                key={item.id + 1}
                                 id={item.id}
                             ></Comment>
                         ))}                        

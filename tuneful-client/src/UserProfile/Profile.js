@@ -78,7 +78,7 @@ const ProfilePage = () => {
       }
       )
 
-    //SPOTIFY CODE
+    //SPOTIFY CODE from url
     // spotifyWebApi.getMe()
     // .then((response) => {
     //   console.log(response)
@@ -167,13 +167,13 @@ const ProfilePage = () => {
         <Grid container spacing={4}>
 
           {userPostsState.map((item) => (
-
             <Post
               post_data={item}
               key={item.id}
               image_url={item.image_url}
               id={item.id}
             ></Post>
+
           ))}
 
         </Grid>
