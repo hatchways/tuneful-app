@@ -19,6 +19,9 @@ const { Avatar, Typography } = atoms;
 
 const ProfilePage = () => {
 
+    
+    //must get public user id from url
+
   const cookie_access_token = useCookies()[0].access_token;
   spotifyWebApi.setAccessToken(cookie_access_token)
 
@@ -41,9 +44,15 @@ const ProfilePage = () => {
   useEffect(() => {
     //with Hooks the useEffect repalces the componentDidMount. This stops the render from running this code eternally
 
+    const public_user_id = window.location.pathname.slice(9)
+    console.log(window.location.pathname)
+    console.log(`Logged in user: ${user_id}`)
+    console.log(`Public User Profile id: ${public_user_id}`)
+   
+    console.log("Public Profile")
 
-    //get user data
-    fetch(`http://localhost:8000/api/users/${user_id}`)
+    //get PUBLIC user data
+    fetch(`http://localhost:8000/api/users/${public_user_id}`)
       .then(results => {
         return results.json()
       })
@@ -52,12 +61,10 @@ const ProfilePage = () => {
         console.log(data.description)
         //console.log(data.image_url)
         let theImage = data.image_url;
-        console.log(theImage)
-        if (theImage === undefined || theImage === null) {
-          console.log("using default image")          
+        if (theImage === undefined) {
+          console.log("using default image")
           theImage = "http://www.accountingweb.co.uk/sites/all/modules/custom/sm_pp_user_profile/img/default-user.png"
         }
-        console.log(theImage)
         setUserProfileState({
           user: {
             ...userProfileState.user,
@@ -70,7 +77,7 @@ const ProfilePage = () => {
 
 
     //get the users posts and display them
-    fetch(`http://localhost:8000/api/posts/author/${user_id}`)
+    fetch(`http://localhost:8000/api/posts/author/${public_user_id}`)
       .then(results => {
         return results.json()
       })
@@ -108,6 +115,7 @@ const ProfilePage = () => {
       //  setUserPostsState([])
     }
 
+
   })
 
   const profileChange = (e) => {
@@ -118,68 +126,64 @@ const ProfilePage = () => {
 
   return (
     <React.Fragment>
-      <CssBaseline />
-      <Header />
-      <Box component="main" maxWidth={935} margin="auto" padding="60px 20px 30px">
-        <Box mb="44px">
-          <Grid container>
-            <Grid item xs={4}>
-              <Avatar
-                ultraLarge={upSm}
-                medium={!upSm}
-                style={{ margin: 'auto' }}
-                alt="Profile Pic"
-                src={userProfileState.user.image}
-              />
-            </Grid>
-            <Grid item xs={8}>
-              <Box clone mb="20px">
-                <Grid container alignItems="center">
-                  <Typography component="h1" variant="h3" lightWeight>
-                    {userProfileState.user.name}
-                  </Typography>
-
-                  <EditProfile
-                    changed={profileChange}
-                    desc={""}
-                  />
-                </Grid>
-              </Box>
-              <Typography variant="subtitle1">{userProfileState.user.description}</Typography>
-              <Box mb="20px">
-                <Grid container spacing={5}>
-                  <Grid item>
-                    <Typography variant="subtitle1">
-                      <b>325</b> followers
-                    </Typography>
-                  </Grid>
-                  <Grid item>
-                    <Typography variant="subtitle1">
-                      <b>260</b> following
-                    </Typography>
-                  </Grid>
-                </Grid>
-              </Box>
-
-            </Grid>
+    <CssBaseline />
+    <Header />
+    <Box component="main" maxWidth={935} margin="auto" padding="60px 20px 30px">
+      <Box mb="44px">
+        <Grid container>
+          <Grid item xs={4}>
+            <Avatar
+              ultraLarge={upSm}
+              medium={!upSm}
+              style={{ margin: 'auto' }}
+              alt="Profile Pic"
+              src={userProfileState.user.image}
+            />
           </Grid>
-        </Box>
+          <Grid item xs={8}>
+            <Box clone mb="20px">
+              <Grid container alignItems="center">
+                <Typography component="h1" variant="h3" lightWeight>
+                  {userProfileState.user.name}
+                </Typography>
+            
+              </Grid>
+            </Box>
+            <Typography variant="subtitle1">{userProfileState.user.description}</Typography>
+            <Box mb="20px">
+              <Grid container spacing={5}>
+                <Grid item>
+                  <Typography variant="subtitle1">
+                    <b>325</b> followers
+                  </Typography>
+                </Grid>
+                <Grid item>
+                  <Typography variant="subtitle1">
+                    <b>260</b> following
+                  </Typography>
+                </Grid>
+              </Grid>
+            </Box>
 
-        <Grid container spacing={4}>
-
-          {userPostsState.reverse().map((item) => (
-            <Post
-              post_data={item}
-              key={item.id+1}
-              image_url={item.image_url}
-              id={item.id}
-            ></Post>
-
-          ))}
-
+          </Grid>
         </Grid>
       </Box>
-    </React.Fragment>
+
+      <Grid container spacing={4}>
+
+        {userPostsState.reverse().map((item) => (
+          <Post
+            post_data={item}
+            key={item.id+1}
+            image_url={item.image_url}
+            id={item.id}
+          ></Post>
+
+        ))}
+
+      </Grid>
+    </Box>
+  </React.Fragment>
   );
 }
 

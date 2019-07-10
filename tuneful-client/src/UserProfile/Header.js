@@ -83,10 +83,10 @@ const Header = () => {
           </Grid>
 
           <Grid item className={classes.header2} >
-            <Grid container justify="space-between" >
+            <Grid container justify="space-around" >
               <Button href="/share-music" variant="outlined">Share Music</Button>
               <Button  href="/discover" >Discover</Button>
-              <Button >Messages</Button>
+              {/*  Soon :( <Button >Messages</Button> */}             
               <Button onClick={handleLogoutClick}>Logout</Button>
               <Avatar alt="VZ"
                 src={userProfileState.user.image}

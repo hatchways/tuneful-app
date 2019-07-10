@@ -10,15 +10,17 @@ import Typography from '@material-ui/core/Typography';
 import Grid from '@material-ui/core/Grid';
 import Box from '@material-ui/core/Box'
 
-
 const Comment = (props) => {
     const useStyles = makeStyles(theme => ({
         root: {
             maxWidth: "100%",
             backgroundColor: theme.palette.background.paper,
             flexShrink: "1",
-            marginTop: theme.spacing(2)
+            maxHeight: "200",
+            overflow: "auto"
+           
         },
+     
         inline: {
             display: 'inline',
         },
@@ -99,7 +101,6 @@ const Comment = (props) => {
                     />
                 </ListItem>
                 <Divider variant="inset" component="li" />
-
 
             </List>
         </Box>
