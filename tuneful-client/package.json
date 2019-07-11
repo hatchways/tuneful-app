@@ -1,5 +1,5 @@
 {
-  "name": "spotifysocial-client",
+  "name": "tuneful-client",
   "version": "0.1.0",
   "private": true,
   "dependencies": {
@@ -7,10 +7,12 @@
     "@material-ui/icons": "^4.2.0",
     "hookrouter": "^1.2.3",
     "react": "^16.8.6",
+    "react-cookie": "^4.0.0",
     "react-dom": "^16.8.6",
     "react-material-ui-form-validator": "^2.0.9",
     "react-router-dom": "^5.0.1",
     "react-scripts": "3.0.1",
+    "react-window": "^1.8.5",
     "spotify-web-api-js": "^1.2.0"
   },
   "scripts": {

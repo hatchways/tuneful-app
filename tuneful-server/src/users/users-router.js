@@ -13,6 +13,7 @@ const serializeUser = user => ({
   email: xss(user.email),
   description: xss(user.description),
   date_created: user.date_created,
+  image_url: user.image_url,
 })
 
 usersRouter
@@ -25,14 +26,17 @@ usersRouter
       })
       .catch(next)
   })
+
     .post(jsonBodyParser, (req, res,next) => {
       const {first_name,last_name, password,email} = req.body
 
       for (const field of ['first_name', 'last_name', 'email','password'])
+
       if (!req.body[field])
       return res.status(400).json({
       error: `Missing '${field}' in request body`
       })
+
 
       const passwordError = UsersService.validatePassword(password)
       if (passwordError)
@@ -56,6 +60,7 @@ usersRouter
                      date_created: 'now()',
                    } 
 
+
     return UsersService.insertUser(
       req.app.get('db'),
       newUser
@@ -68,6 +73,61 @@ usersRouter
       })
     })
   })
+      .catch(next)
+  })
+
+usersRouter
+  .route('/:user_id')
+  .all((req, res, next) => {
+    UsersService.getById(
+      req.app.get('db'),
+      req.params.user_id
+    )
+
+      .then(user => {
+        if (!user) {
+          return res.status(404).json({
+            error: { message: `User doesn't exist` }
+          })
+        }
+        res.user = user
+        next()
+      })
+      .catch(next)
+  })
+  .get((req, res, next) => {
+    res.json(serializeUser(res.user))
+  })
+  .delete((req, res, next) => {
+    UsersService.deleteUser(
+      req.app.get('db'),
+      req.params.user_id
+    )
+      .then(numRowsAffected => {
+        res.status(204).end()
+      })
+      .catch(next)
+  })
+  .patch(jsonBodyParser, (req, res, next) => {
+    const { first_name, last_name, password, email, description } = req.body
+    const userToUpdate = { first_name, last_name, password, email, description }
+
+    const numberOfValues = Object.values(userToUpdate).filter(Boolean).length
+    if (numberOfValues === 0)
+      return res.status(400).json({
+        error: {
+          message: `Request body must content either 'firstname', 'lastname', 'password' ,'email' or 'description'`
+        }
+      })
+
+    UsersService.updateUser(
+      req.app.get('db'),
+      req.params.user_id,
+      userToUpdate
+    )
+      .then(numRowsAffected => {
+        res.status(204).end()
+      })
       .catch(next)
   })
 

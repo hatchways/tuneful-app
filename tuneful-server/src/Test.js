@@ -1,3 +1,9 @@
 require('dotenv').config()
+const express = require('express');
+const cookieParser = require('cookie-parser');
+const app = express()
 
-console.log(process.env.AWS_ACCESS_KEY_ID)
+
+app.use(cookieParser());
+
+console.log(process.env.SPOTIFY_CLIENT_ID)

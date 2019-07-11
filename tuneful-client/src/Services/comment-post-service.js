@@ -1,9 +1,9 @@
 import config from '../config'
 import user_id from './get-user-id'
 
-const editProfileService = {
+const commentPostService = {
     updateUser({ description}) {
-      return fetch(`${config.API_ENDPOINT}/users/${user_id}`, {
+      return fetch(`${config.API_ENDPOINT}/comments/posts/${user_id}`, {
         method: 'PATCH',
         headers: {
           'content-type': 'application/json',
