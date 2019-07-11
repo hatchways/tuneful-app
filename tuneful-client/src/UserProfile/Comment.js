@@ -16,11 +16,8 @@ const Comment = (props) => {
             maxWidth: "100%",
             backgroundColor: theme.palette.background.paper,
             flexShrink: "1",
-            maxHeight: "200",
-            overflow: "auto"
-           
         },
-     
+
         inline: {
             display: 'inline',
         },
@@ -43,9 +40,9 @@ const Comment = (props) => {
             }
         }
     )
-    useEffect(() => {       
+    useEffect(() => {
 
-      //  console.log(props.comment_data)
+        //  console.log(props.comment_data)
 
         //get user data
         fetch(`http://localhost:8000/api/users/${props.comment_data.user_id}`)
@@ -56,14 +53,14 @@ const Comment = (props) => {
                 console.log(data)
 
                 let theImage = data.image_url;
-                if (theImage === undefined) {                  
-                  theImage = "http://www.accountingweb.co.uk/sites/all/modules/custom/sm_pp_user_profile/img/default-user.png"
+                if (theImage === undefined) {
+                    theImage = "http://www.accountingweb.co.uk/sites/all/modules/custom/sm_pp_user_profile/img/default-user.png"
                 }
                 setCommentUserState({
-                  comment_user: {                   
-                    name: data.first_name,                    
-                    image: theImage
-                  }
+                    comment_user: {
+                        name: data.first_name,
+                        image: theImage
+                    }
                 })
 
 

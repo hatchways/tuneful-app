@@ -83,6 +83,7 @@ const Post = (props) => {
             flexDirection: "column",
             paddingLeft: theme.spacing(2),
             flexGrow: "1",
+            
         },
         rightPane: {
             display: "flex",
@@ -191,7 +192,8 @@ const Post = (props) => {
                 setUserProfileState({
                     user: {
                         id: data.id,
-                        name: data.first_name,
+                        first_name: data.first_name,
+                        last_name: data.last_name,
                         image: theImage
                     }
                 })
@@ -303,7 +305,7 @@ const Post = (props) => {
                     <Grid item className={classes.leftPane}>
                         <iframe
                             src={music_url}
-                            width="300px"
+                            width="100%"
                             height="380px"
                             frameBorder="0" allowtransparency="true"
                             allow="encrypted-media"
@@ -327,7 +329,7 @@ const Post = (props) => {
 
                                 <Grid item className={classes.postAuthor} >
                                     <Typography variant="h5" gutterBottom style={{ marginLeft: "8px" }}>
-                                        {userProfileState.user.name}
+                                        {userProfileState.user.first_name + " " + userProfileState.user.last_name}
                                     </Typography>
 
                                     <Typography variant="subtitle1" gutterBottom style={{ margin: "0 8px 8px" }}>
@@ -370,7 +372,7 @@ const Post = (props) => {
                                     margin="dense"
                                     variant="outlined"
                                     onClick={postComment}
-                                    style = {{width: "100%"}}
+                                    style={{ width: "100%" }}
                                 > Post </Button>
                             </Grid>
 

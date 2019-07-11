@@ -61,7 +61,8 @@ const ProfilePage = () => {
         setUserProfileState({
           user: {
             ...userProfileState.user,
-            name: data.first_name,
+            first_name: data.first_name,
+            last_name: data.last_name,
             description: data.description,
             image: theImage
           }
@@ -136,7 +137,8 @@ const ProfilePage = () => {
               <Box clone mb="20px">
                 <Grid container alignItems="center">
                   <Typography component="h1" variant="h3" lightWeight>
-                    {userProfileState.user.name}
+                    
+                    {userProfileState.user.first_name + " " + userProfileState.user.last_name }
                   </Typography>
 
                   <EditProfile
@@ -150,12 +152,12 @@ const ProfilePage = () => {
                 <Grid container spacing={5}>
                   <Grid item>
                     <Typography variant="subtitle1">
-                      <b>325</b> followers
+                      <b>0</b> followers
                     </Typography>
                   </Grid>
                   <Grid item>
                     <Typography variant="subtitle1">
-                      <b>260</b> following
+                      <b>0</b> following
                     </Typography>
                   </Grid>
                 </Grid>
