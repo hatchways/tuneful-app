@@ -72,7 +72,6 @@ const useForm = (callback) => {
 const handleCommentPost = (event) => {
   event.preventDefault();
   const comment = event.target
-
 }
 
   const handleChange = (event) => {
@@ -89,6 +88,10 @@ const handleCommentPost = (event) => {
     history.push('/profile')
   };
 
+  const handlePublicProfileRedirect = (id)=>{       
+    history.push(`/profile/${id}`)
+  };
+
   return {
     handleChange,
     handleSubmit,
@@ -96,6 +99,7 @@ const handleCommentPost = (event) => {
     handleEditProfileSubmit,
     handleLogoutClick,
     handleProfileClick,
+    handlePublicProfileRedirect,
     values,
     error,
   }

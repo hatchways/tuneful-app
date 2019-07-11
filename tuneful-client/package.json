@@ -12,6 +12,7 @@
     "react-material-ui-form-validator": "^2.0.9",
     "react-router-dom": "^5.0.1",
     "react-scripts": "3.0.1",
+    "react-window": "^1.8.5",
     "spotify-web-api-js": "^1.2.0"
   },
   "scripts": {

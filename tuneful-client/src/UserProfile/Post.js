@@ -18,6 +18,10 @@ import Avatar from '@material-ui/core/Avatar';
 import clsx from 'clsx';
 import config from '../config'
 import user_id from '../Services/get-user-id'
+import Paper from '@material-ui/core/Paper';
+import Divider from '@material-ui/core/Divider';
+import useForm from '../Services/useForm'
+
 
 const Transition = React.forwardRef(function Transition(props, ref) {
     return <Slide direction="up" ref={ref} {...props} />;
@@ -36,12 +40,10 @@ const Post = (props) => {
             }
         }
     )
-    
-    const [commentsState, setCommentsState] = useState(
-        ["test1", "test2"]
-    )
-    const [postCommentState, setPostCommentState] = useState();
 
+    const [commentsState, setCommentsState] = useState([])
+    const [postCommentState, setPostCommentState] = useState();
+    const { handlePublicProfileRedirect, handleProfileClick } = useForm();
 
     const useStyles = makeStyles(theme => ({
 
@@ -72,7 +74,7 @@ const Post = (props) => {
             display: "flex",
             justifyContent: "space-around",
             flexDirection: "row",
-            height: "80%",
+            height: "75%",
             alignContent: "space-between"
         },
 
@@ -81,15 +83,17 @@ const Post = (props) => {
             flexDirection: "column",
             paddingLeft: theme.spacing(2),
             flexGrow: "1",
+            
         },
         rightPane: {
             display: "flex",
             flexDirection: "column",
             flexGrow: "2",
-            paddingRight: theme.spacing(1),
+            paddingRight: theme.spacing(2),
             paddingLeft: theme.spacing(1),
             width: "50%",
-            flexShrink: "0"
+            flexShrink: "0",
+            justifyContent: "space-between"
         },
         icon: {
             margin: theme.spacing(1),
@@ -102,11 +106,26 @@ const Post = (props) => {
         userInfo: {
             display: "flex",
             flexDirection: "row",
+            alignItems: "center"
         },
         bigAvatar: {
             margin: 10,
             width: 60,
             height: 60,
+        },
+        userInfoPanel: {
+            '&:hover': {
+                cursor: "pointer"
+            },
+        },
+        postAuthor: {
+            display: "flex",
+            flexDirection: "column"
+        },
+        commentsList: {
+            height: "100%",
+            maxHeight: "350px",
+            overflow: "auto"
         }
 
     }));
@@ -127,6 +146,19 @@ const Post = (props) => {
 
     function test() {
         console.log("click yay")
+    }
+
+    const publicPageRedirect = () => {
+        const id = userProfileState.user.id
+        console.log(id)
+        if (id === user_id) {
+            console.log("id's are the same!")
+            handleProfileClick()
+        }
+        else {
+            handlePublicProfileRedirect(id)
+        }
+
     }
 
     const changeIsLiked = () => {
@@ -159,7 +191,9 @@ const Post = (props) => {
                 }
                 setUserProfileState({
                     user: {
-                        name: data.first_name,
+                        id: data.id,
+                        first_name: data.first_name,
+                        last_name: data.last_name,
                         image: theImage
                     }
                 })
@@ -174,7 +208,7 @@ const Post = (props) => {
             .then(comments => {
                 console.log(comments)
                 setCommentsState(comments)
-                setTimeout(()=>console.log(commentsState), 3000)
+                setTimeout(() => console.log(commentsState), 3000)
                 //console.log(commentsState)
             }
             )
@@ -194,7 +228,7 @@ const Post = (props) => {
         console.log(author_id)
         const description = postCommentState
 
-        const posts_id = props.post_data.id       
+        const posts_id = props.post_data.id
 
         var today = new Date();
         var dd = String(today.getDate()).padStart(2, '0');
@@ -210,27 +244,29 @@ const Post = (props) => {
         console.log("adding comment on: " + today)
         const date_commented = today
 
-       // console.log(date_commented)       
+        // console.log(date_commented)       
         //must format date
 
         //POST comment to database
         fetch('http://localhost:8000/api/comments', {
             method: 'POST',
             headers: {
-              'content-type': 'application/json',
+                'content-type': 'application/json',
             },
-            body: JSON.stringify({ description,posts_id,user_id,date_commented }),
-          })
+            body: JSON.stringify({ description, posts_id, user_id, date_commented }),
+        })
             .then(res =>
-              (!res.ok)
-                ? res.json().then(e => Promise.reject(e))
-                : res.json()
+                (!res.ok)
+                    ? res.json().then(e => Promise.reject(e))
+                    : res.json()
             )
 
+        window.location.reload();
+
     }
-   
+
     const handleChange = (e) => {
-       // console.log(e.target.value)
+        // console.log(e.target.value)
         setPostCommentState(e.target.value)
     }
 
@@ -264,13 +300,12 @@ const Post = (props) => {
                 </DialogActions>
 
 
-
                 <Grid container className={classes.dialogGrid}>
 
                     <Grid item className={classes.leftPane}>
                         <iframe
                             src={music_url}
-                            width="300px"
+                            width="100%"
                             height="380px"
                             frameBorder="0" allowtransparency="true"
                             allow="encrypted-media"
@@ -278,62 +313,74 @@ const Post = (props) => {
                         >
                         </iframe>
 
-
                         {isLiked === true && <FavoriteIconFilled className={classes.icon} onClick={changeIsLiked} />}
                         {isLiked === false && <FavoriteIconOutlined className={classes.icon} onClick={changeIsLiked} />}
-
 
                         <DialogContentText>{likesCount} likes</DialogContentText>
 
                     </Grid>
 
-
                     <Grid item className={classes.rightPane}>
 
-                        <Box component="span" display="block" className={classes.userInfo}>
-                            <Avatar alt="VZ" src={userProfileState.user.image} className={classes.bigAvatar} />
+                        <Grid className={classes.userInfoPanel} onClick={publicPageRedirect}>
 
-                            <Typography variant="h6" gutterBottom>
-                                {userProfileState.user.name}
-                            </Typography>
+                            <Box component="span" display="block" className={classes.userInfo}>
+                                <Avatar alt="VZ" src={userProfileState.user.image} className={classes.bigAvatar} />
 
-                        </Box>
-                        <Typography variant="subtitle1" gutterBottom>
-                            {props.post_data.description}
-                        </Typography>
+                                <Grid item className={classes.postAuthor} >
+                                    <Typography variant="h5" gutterBottom style={{ marginLeft: "8px" }}>
+                                        {userProfileState.user.first_name + " " + userProfileState.user.last_name}
+                                    </Typography>
 
-                        {commentsState.map((item) => (
-                                 <Comment
-                                comment_data={item}
-                                key={item.id + 1}
-                                id={item.id}
-                            ></Comment>
-                        ))}                        
+                                    <Typography variant="subtitle1" gutterBottom style={{ margin: "0 8px 8px" }}>
+                                        {props.post_data.description}
+                                    </Typography>
 
-                        <TextField
-                            id="outlined-dense"
-                            label="Add comment"
-                            className={clsx(classes.textField, classes.dense)}
-                            margin="dense"
-                            variant="outlined"
-                            fullWidth
-                            multiline
-                            rowsMax="2"
-                            onChange = {handleChange}
-                        />
-                        <Button
-                            className={clsx(classes.textField, classes.dense)}
-                            margin="dense"
-                            variant="outlined"
-                            onClick = {postComment}
-                        > Post </Button>
+                                </Grid>
+                            </Box>
+                            <Divider variant="middle" />
 
+                        </Grid>
+
+                        <Grid className={classes.commentsList}>
+                            {commentsState.map((item) => (
+                                <Comment
+                                    comment_data={item}
+                                    key={item.id + 1}
+                                    id={item.id}
+                                ></Comment>
+                            ))}
+
+                        </Grid>
+
+                        <Grid>
+                            <TextField
+                                id="outlined-dense"
+                                label="Add comment"
+                                className={clsx(classes.textField, classes.dense)}
+                                margin="dense"
+                                variant="outlined"
+                                fullWidth
+                                multiline
+                                rowsMax="2"
+                                onChange={handleChange}
+                            />
+
+                            <Grid>
+                                <Button
+                                    className={clsx(classes.textField, classes.dense)}
+                                    margin="dense"
+                                    variant="outlined"
+                                    onClick={postComment}
+                                    style={{ width: "100%" }}
+                                > Post </Button>
+                            </Grid>
+
+                        </Grid>
                     </Grid>
                 </Grid>
-
             </Dialog>
         </Grid>
-
     )
 }
 
