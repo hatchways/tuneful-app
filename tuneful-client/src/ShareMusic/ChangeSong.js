@@ -151,10 +151,15 @@ const ChangeSong = (props) => {
 
                     //  console.log(arr)
                     for (let i = 0; i < 10; i++) {
+                        console.log(i)
 
                         if (response.tracks.items[i] === undefined) {
                             continue;
                         }
+                        if (response.tracks.items[i].album.images[0] === undefined) {
+                            continue;
+                        }
+
 
                         arr[i] = {
                             artist: response.tracks.items[i].artists[0].name,
