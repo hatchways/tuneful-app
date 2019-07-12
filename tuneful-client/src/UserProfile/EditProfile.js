@@ -69,8 +69,7 @@ export default function EditProfile(props) {
                 console.log(data)               
                 setImageUrl(data.imageUrl)              
                 console.log(image_url)
-                handleEditProfileSubmit(description, image_url)
-             
+                handleEditProfileSubmit(description, data.imageUrl)             
             })          
 
     }

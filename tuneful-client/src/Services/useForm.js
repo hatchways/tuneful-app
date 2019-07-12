@@ -65,7 +65,7 @@ const useForm = (callback) => {
     const description = d1;
     const image_url = d2;
 
-    console.log (description)
+    console.log (description.value)
     console.log (image_url)
 
     editProfileService.updateUser({
@@ -78,7 +78,9 @@ const useForm = (callback) => {
       .catch(res => {
         console.log(res.error)
       })
-   // history.push('/profile')
+
+
+    history.push('/profile')
 
   //  ditProfileService.updateUser({
   //   description:description.value,
