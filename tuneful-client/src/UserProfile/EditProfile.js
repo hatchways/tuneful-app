@@ -138,9 +138,7 @@ export default function EditProfile(props) {
 
                         <Box component="span" display="block">
                             <Typography variant="caption">
-                                {photoData.name}         
-                                "    "
-                                {image_url}                   
+                                {photoData.name}       
                             </Typography>
                         </Box>
 
