@@ -163,8 +163,8 @@ usersRouter
       .catch(next)
   })
   .patch(jsonBodyParser, (req, res, next) => {
-    const { first_name, last_name, password, email, description } = req.body
-    const userToUpdate = { first_name, last_name, password, email, description }
+    const { first_name, last_name, password, email, description, image_url } = req.body
+    const userToUpdate = { first_name, last_name, password, email, description ,image_url}
 
     const numberOfValues = Object.values(userToUpdate).filter(Boolean).length
     if (numberOfValues === 0)

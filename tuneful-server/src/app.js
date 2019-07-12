@@ -8,7 +8,7 @@ const authRouter = require('./auth/auth-router')
 const usersRouter = require('./users/users-router')
 const PostsRouter = require('./posts/posts-router')
 const commentsRouter = require('./comments/comments-router')
-const ImageUploadRouter = require('./imageUpload/image-upload-router')
+const ImageUploadRouter = require('./imageUpload/image-upload-router2')
 const SpotifyRouter = require('./spotify/spotify-router')
 const querystring = require('querystring');
 const cookieParser = require('cookie-parser');
@@ -32,7 +32,7 @@ app.use('/api/auth', authRouter)
 app.use('/api/users', usersRouter)
 app.use('/api/comments', commentsRouter)
 app.use('/api/posts', PostsRouter)
-app.use('/api',ImageUploadRouter)
+app.use('/api/',ImageUploadRouter)
 app.use('/api',SpotifyRouter)
 
 

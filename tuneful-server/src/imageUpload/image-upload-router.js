@@ -1,7 +1,6 @@
 const express = require('express');
 const ImageUploadRouter = express.Router();
 
-
 const upload = require('./image-upload-service');
 
 ImageUploadRouter.post('/image-upload', upload.single('avatar'), function (req, res, next) {
