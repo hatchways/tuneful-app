@@ -23,7 +23,7 @@ const useForm = (callback) => {
           last_name.value = ''
           email.value = ''
           password.value = ''
-          history.push('/success')
+          history.push('https://siakams-tuneful-app.now.sh/success')
         })
         .catch(res => {
           console.log(res.error)
