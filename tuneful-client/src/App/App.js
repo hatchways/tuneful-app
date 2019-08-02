@@ -16,7 +16,7 @@ export default class App extends Component{
       <Route path = '/success' component = {SuccessSignUp}/>
       <PrivateRoute path = '/profile' component = {Profile} />
       <Route path = '/spotify-login' component={() => { 
-     window.location.href = 'http://localhost:8000/api/spotify-login'; 
+     window.location.href = 'http://thawing-spire-26886.herokuapp.com/api/spotify-login'; 
      return null;
 }}/>
       </Switch>
