@@ -34,6 +34,8 @@ const getHashParams = () => {
 
 const params = getHashParams();
 
+
+
 if (params.access_token) {
   //ACCESS TOKEN
   spotifyWebApi.setAccessToken(params.access_token)
