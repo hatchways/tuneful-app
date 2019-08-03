@@ -23,8 +23,8 @@ const useForm = (callback) => {
           last_name.value = ''
           email.value = ''
           password.value = ''
-          history.push('https://siakams-tuneful-app.now.sh/success')
         })
+        .then( window.location.href ='https://siakams-tuneful-app.now.sh/success')
         .catch(res => {
           console.log(res.error)
         })
