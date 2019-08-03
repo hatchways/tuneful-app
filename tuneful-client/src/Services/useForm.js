@@ -11,23 +11,23 @@ const useForm = (callback) => {
 
   const handleSubmit = (event) => {
     if (event) event.preventDefault();
-      const {first_name,last_name,email,password} = event.target
-      AuthApiService.postUser({
-        first_name: first_name.value,
-        last_name: last_name.value,
-        email: email.value,
-        password: password.value,
+    const { first_name, last_name, email, password } = event.target
+    AuthApiService.postUser({
+      first_name: first_name.value,
+      last_name: last_name.value,
+      email: email.value,
+      password: password.value,
+    })
+      .then(user => {
+        first_name.value = ''
+        last_name.value = ''
+        email.value = ''
+        password.value = ''
+        history.push('/success')
       })
-        .then(user => {
-          first_name.value = ''
-          last_name.value = ''
-          email.value = ''
-          password.value = ''
-        })
-        .then( window.location.href ='https://siakams-tuneful-app.now.sh/success')
-        .catch(res => {
-          console.log(res.error)
-        })
+      .catch(res => {
+        console.log(res.error)
+      })
   };
 
 
