@@ -14,7 +14,7 @@ export default class App extends Component{
       <Route exact path = '/' component = {LoginForm} />
       <Route path = '/register' component = {RegistrationForm} />
       <Route path = '/success' component = {SuccessSignUp}/>
-      <PrivateRoute path = '/profile' component = {Profile} />
+      <Route path = '/profile' component = {Profile} />
       <Route path = '/spotify-login' component={() => { 
      window.location.href = 'http://thawing-spire-26886.herokuapp.com/api/spotify-login'; 
      return null;
