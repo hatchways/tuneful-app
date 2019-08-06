@@ -20,6 +20,10 @@ const CommentsService = {
         .where('id', id)
         .first()
     },
+
+    getByPosts(knex, posts_id){
+      return knex.from('user_comments').select('*').where('posts_id', posts_id)
+    },
   
     deleteComment(knex, id) {
       return knex('user_comments')

@@ -8,14 +8,12 @@ const authRouter = require('./auth/auth-router')
 const usersRouter = require('./users/users-router')
 const PostsRouter = require('./posts/posts-router')
 const commentsRouter = require('./comments/comments-router')
-const ImageUploadRouter = require('./imageUpload/image-upload-router')
-const LikesRouter = require('./likes/likes-router')
+const ImageUploadRouter = require('./imageUpload/image-upload-router2')
 const SpotifyRouter = require('./spotify/spotify-router')
 const querystring = require('querystring');
 const cookieParser = require('cookie-parser');
 const request = require('request'); // "Request" library
 const bodyParser = require('body-parser')
-
 
 const app = express()
 
@@ -34,9 +32,9 @@ app.use('/api/auth', authRouter)
 app.use('/api/users', usersRouter)
 app.use('/api/comments', commentsRouter)
 app.use('/api/posts', PostsRouter)
-app.use('/api/likes',LikesRouter)
-app.use('/api',ImageUploadRouter)
+app.use('/api/',ImageUploadRouter)
 app.use('/api',SpotifyRouter)
+
 
 app.use(function errorHandler(error,req,res,next){
     let response
@@ -48,9 +46,5 @@ app.use(function errorHandler(error,req,res,next){
     }
     res.status(500).json(response)
 })
-
-
-
-
 
 module.exports = app

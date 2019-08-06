@@ -13,6 +13,7 @@ const serializeUser = user => ({
   email: xss(user.email),
   description: xss(user.description),
   date_created: user.date_created,
+  image_url: user.image_url,
 })
 
 usersRouter
@@ -108,8 +109,8 @@ usersRouter
       .catch(next)
   })
   .patch(jsonBodyParser, (req, res, next) => {
-    const { first_name, last_name, password, email, description } = req.body
-    const userToUpdate = { first_name, last_name, password, email, description }
+    const { first_name, last_name, password, email, description, image_url } = req.body
+    const userToUpdate = { first_name, last_name, password, email, description, image_url }
 
     const numberOfValues = Object.values(userToUpdate).filter(Boolean).length
     if (numberOfValues === 0)
@@ -162,9 +163,9 @@ usersRouter
       .catch(next)
   })
   .patch(jsonBodyParser, (req, res, next) => {
-    const { first_name, last_name, password, email, description } = req.body
-    const userToUpdate = { first_name, last_name, password, email, description }
-
+    const { first_name, last_name, password, email, description, image_url } = req.body
+    const userToUpdate = { first_name, last_name, password, email, description ,image_url}
+   
     const numberOfValues = Object.values(userToUpdate).filter(Boolean).length
     if (numberOfValues === 0)
       return res.status(400).json({

@@ -7,7 +7,7 @@ import editProfileService from '../Services/edit-profile-service';
 const useForm = (callback) => {
 
   const [values, setValues] = useState({});
-  const [error,setError] = useState(null);
+  const [error, setError] = useState(null);
 
   const handleSubmit = (event) => {
     if (event) event.preventDefault();
@@ -34,7 +34,7 @@ const useForm = (callback) => {
   const handleSubmitJwtAuth = (event) => {
     event.preventDefault()
     const { email, password } = event.target
- 
+
     AuthApiService.postLogin({
       email: email.value,
       password: password.value,
@@ -45,42 +45,70 @@ const useForm = (callback) => {
         TokenService.saveAuthToken(res.authToken)
       })
       .catch(res => {
-        setError(res.error)})      
 
-       window.setTimeout(()=>{
-         history.push('/spotify-login');
-       },1000)
- }
+        setError(res.error)
+      })
 
- const handleEditProfileSubmit = (event) => {
-  event.preventDefault();
-  const {description,image_url} = event.target
-  
+    window.setTimeout(() => {
+      history.push('/spotify-login');
+    }, 1000)
+  }
 
-  editProfileService.updateUser({
-    description:description.value,
-  })
-    .then(res => {
-      description.value = ''
+  const handleEditProfileSubmit = (d1, d2) => {
+   // event.preventDefault();
+    //console.log(event)
+   // const  description  = event.target
+   // const image_url = event.target.files[0]
+     //console.log(image_url)
+    //post image to AWS, then grab url
+
+    const description = d1;
+    const image_url = d2;
+
+    console.log (description.value)
+    console.log (image_url)
+
+    editProfileService.updateUser({
+      description: description.value,
+      image_url : image_url,
     })
-    .catch(res => {
-      console.log(res.error)
-    })
+      .then(res => {
+        description.value = ''
+      })
+      .catch(res => {
+        console.log(res.error)
+      })
+
 
     history.push('/profile')
 
-}
+  //  ditProfileService.updateUser({
+  //   description:description.value,
+  // })
+  //   .then(res => {
+  //     description.value = ''
+  //   })
+  //   .catch(res => {
+  //     console.log(res.error)
+  }
 
   const handleChange = (event) => {
     event.persist();
     setValues(values => ({ ...values, [event.target.id]: event.target.value }));
   };
 
-  const handleLogoutClick = ()=>{
+  const handleLogoutClick = () => {
     TokenService.clearAuthToken();
     history.push('/profile')
   };
 
+  const handleProfileClick = () => {
+    history.push('/profile')
+  };
+
+  const handlePublicProfileRedirect = (id) => {
+    history.push(`/profile/${id}`)
+  };
 
   return {
     handleChange,
@@ -88,6 +116,8 @@ const useForm = (callback) => {
     handleSubmitJwtAuth,
     handleEditProfileSubmit,
     handleLogoutClick,
+    handleProfileClick,
+    handlePublicProfileRedirect,
     values,
     error,
   }

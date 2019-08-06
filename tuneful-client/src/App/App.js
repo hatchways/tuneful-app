@@ -5,21 +5,30 @@ import RegistrationForm from '../RegistrationForm/RegistrationForm';
 import LoginForm from '../LoginForm/loginForm';
 import Profile from '../UserProfile/Profile';
 import SuccessSignUp from '../RegistrationForm/Success';
+import ShareMusic from '../ShareMusic/ShareMusic'
+import DiscoverFeed from '../DiscoverFeed/DiscoverFeed'
+import PublicProfile from '../UserProfile/PublicProfile';
 
-export default class App extends Component{
-  render(){
-    return(
+export default class App extends Component {
+  render() {
+    return (
       <main>
-      <Switch>
-      <Route exact path = '/' component = {LoginForm} />
-      <Route path = '/register' component = {RegistrationForm} />
-      <Route path = '/success' component = {SuccessSignUp}/>
-      <Route path = '/profile' component = {Profile} />
-      <Route path = '/spotify-login' component={() => { 
-     window.location.href = 'http://thawing-spire-26886.herokuapp.com/api/spotify-login'; 
-     return null;
-}}/>
-      </Switch>
+        <Switch>
+          <Route exact path='/' component={LoginForm} />
+          <Route path='/register' component={RegistrationForm} />
+          <Route path='/success' component={SuccessSignUp} />
+          
+          <Route path='/profile/:id' component={PublicProfile} />
+          <PrivateRoute path='/profile' component={Profile} />
+         
+
+          <PrivateRoute path='/share-music' component={ShareMusic} />
+          <PrivateRoute path='/discover' component={DiscoverFeed} />
+          <Route path='/spotify-login' component={() => {
+            window.location.href = 'http://localhost:8000/api/spotify-login';
+            return null;
+          }} />
+        </Switch>
       </main>
     )
   }
