@@ -1,0 +1,15 @@
+{
+    "version": 2,
+    "alias": "siakams-tuneful-app",
+    "name": "tuneful-app",
+    "routes": [
+        {
+          "src": "^/static/(.*)",
+          "dest": "/static/$1"
+        },
+        {
+          "src": ".*",
+          "dest": "/index.html"
+        }
+    ]
+  }
